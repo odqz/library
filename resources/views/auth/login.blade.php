@@ -1,17 +1,6 @@
-<x-layout.layout>
-  <form action="/register" method="post" class="rounded p-8">
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-        Username
-      </label>
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="name" 
-        type="text"
-        name="name"
-        max="255"
-        placeholder="John Doe"
-        required>
-    </div>
+<x-layout>
+  <form action="/login" method="post" class="rounded p-8">
+    @csrf
     <div class="mb-4">
       <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
         Email
@@ -44,4 +33,4 @@
       </a> -->
     </div>
   </form>
-</x-layout.layout>
+</x-layout>
