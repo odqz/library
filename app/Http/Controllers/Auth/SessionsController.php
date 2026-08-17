@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SessionsController extends Controller
 {
@@ -20,7 +21,14 @@ class SessionsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $validated = $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'max:255'],
+        ]);
+
+        Auth::attempt($validated);
+
+        return redirect('/');
     }
 
     /**
