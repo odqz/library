@@ -26,9 +26,14 @@
 .left > a,
 .left > p,
 .right > a,
-.right > p {
+.right > p,
+.right > form > button {
   color: var(--text-white);
   font-size: 14px;
+}
+
+.right > form > button:hover {
+  cursor: pointer;
 }
 
 .left, .right {
