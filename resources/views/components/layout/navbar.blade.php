@@ -16,11 +16,13 @@
   </div>
   <div class="right">
     @if(Auth::check())
-      <a href="">profile</a>
-      <p>|</p>
       <a href="">account</a>
       <p>|</p>
-      <a href="">logout</a>
+      <form action="/logout" method="post">
+        @csrf
+        @method('DELETE')
+        <button type="submit">logout</button>
+      </form>
     @else
       <a href="/login">login</a>
       <p>|</p>
