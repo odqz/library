@@ -11,5 +11,6 @@
     <div class="container">
         {{ $slot }}
     </div>
+    <x-layout.sidebar></x-layout.sidebar>
 </body>
 </html>
