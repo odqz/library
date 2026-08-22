@@ -21,7 +21,7 @@ Hopefully it will be quite simple, you can create an account, view anime/manga a
 ## Site currently
 Currently the site is pretty not done. I've made the create account, login and logout features but thats it really. The site has a navbar and footer but no real content on any page. I'd estimate the site is maybe like 2% done or something like that but over time I'll work on it, add new features and hopefully in a few months it'll be live and actually be pretty nice to use.
 
-<img src="/home/oscar/Pictures/site.png" alt="Current site" align="center">
+`There should be an image here but I can't figure out how to get it and can't be asked to do it right now. I'll do it later (hopefully).`
 
 ## Development
 Im using the [Laravel](https://laravel.com/) framework to make this site. I like Laravel however I personally enjoyed Rails more since Ruby had nicer syntax and was just overall more fun to write. The reason I am writing this in Laravel is for a web dev comp I'm going to this year where Laravel is used.
