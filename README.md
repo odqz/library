@@ -7,54 +7,21 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-<img src="public/favicon.ico">
+<img src="public/favicon.ico" alt="Library logo" align="center">
 
-## About Laravel
+## About this site
+Basically I found that I was often forgeting what manga I'd read and what anime I'd seen so I wanted to make a site that basically functions as an easy way to track them. I know there are sites out there that already do this like [MyAnimeList](https://myanimelist.net/) and [AniList](https://anilist.co/search/anime). But the reaseon I dont want to use these sites is email. I hate getting emails about random junk I dont care about and I feel that if I signed up for these sites I'd almost definately receive these emails. To avoid doing this I decided I'd rather build a site where you don't need an email to sign up. Plus, I also thought building this site would be a valuable learning opportunity to improve my knowledge of laravel. So basically this site will make it easy for me to track what manga/anime I've read/seen and also make a site that I'd maybe actually use.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Insperation
+I'd say the primary site that inspired me to build this is [Hacker News](https://news.ycombinator.com/news). Even though my site will be vastly different I always liked the simple design and how it felt. Every site today seems to have to have these really soft catpuccin colors with round smooth corners so I espeically liked Hacker News for having a more blocky feel. I think MyAnimeList aswell also has the kind of blocky feel I mean which is why it also has been a massive source of insperation.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## How the site will work
+Hopefully it will be quite simple, you can create an account, view anime/manga and add the ones you've read/want to read to a "shelf" like in a library. I currently plan on using the [AniList API](https://docs.anilist.co/) since I think I will be able to work out how to use that plus it seems quite good.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Site currently
+Currently the site is pretty not done. I've made the create account, login and logout features but thats it really. The site has a navbar and footer but no real content on any page. I'd estimate the site is maybe like 2% done or something like that but over time I'll work on it, add new features and hopefully in a few months it'll be live and actually be pretty nice to use.
 
-## Learning Laravel
+<img src="/home/oscar/Pictures/site.png" alt="Current site" align="center">
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
-```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Development
+Im using the [Laravel](https://laravel.com/) framework to make this site. I like Laravel however I personally enjoyed Rails more since Ruby had nicer syntax and was just overall more fun to write. The reason I am writing this in Laravel is for a web dev comp I'm going to this year where Laravel is used.
