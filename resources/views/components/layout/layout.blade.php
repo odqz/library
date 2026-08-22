@@ -8,9 +8,9 @@
 </head>
 <body>
     <x-layout.navbar></x-layout.navbar>
-    <div class="container">
+    <div class="content">
         {{ $slot }}
     </div>
-    <x-layout.sidebar></x-layout.sidebar>
+    <x-layout.footer></x-layout.footer>
 </body>
 </html>

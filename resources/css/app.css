@@ -1,7 +1,7 @@
 @import 'tailwindcss';
-@import './navbar.css';
-@import './layout.css';
-@import './sidebar.css';
+@import './navbar.css' layer(component);
+@import './layout.css' layer(component);
+@import './footer.css' layer(component);
 @import './form.css' layer(component);
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

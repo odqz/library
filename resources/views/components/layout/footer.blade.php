@@ -1,12 +1,14 @@
 <div class="sidebar">
   <div class="top">
-    <a href="">rules</a>
+    <a href="">Rules</a>
     <p>|</p>
-    <a href="">faq</a>
+    <a href="">FAQ</a>
     <p>|</p>
-    <a href="">about</a>
+    <a href="">About</a>
     <p>|</p>
-    <a href="">repo</a>
+    <a href="">Repo</a>
+    <p>|</p>
+    <a href="">Help</a>
   </div>
   <a href="" class="bottom">
       <img src="{{asset('favicon.ico')}}" alt="Site logo">
