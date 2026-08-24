@@ -6,9 +6,9 @@
     <title>Library</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="flex flex-col items-center">
     <x-layout.navbar></x-layout.navbar>
-    <div class="content">
+    <div class="content flex justify-center bg-[#f1f1f1] w-[80%]">
         {{ $slot }}
     </div>
     <x-layout.footer></x-layout.footer>
