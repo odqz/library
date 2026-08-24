@@ -8,15 +8,11 @@
     <p>|</p>
     <a href="">manga</a>
     <p>|</p>
-    <a href="">community</a>
-    @if(Auth::check())
-      <p>|</p>
-      <a href="/users/">my shelf</a>
-    @endif
+    <a href="/users/">my shelf</a>
   </div>
   <div class="right">
     @if(Auth::check())
-      <a href="/users/{{Auth::user()->id}}">{{Auth::user()->name}}</a>
+      <a href="/users/{{Auth::user()->id}}">{{Auth::user()->username}}</a>
       <p>|</p>
       <form action="/logout" method="post">
         @csrf
