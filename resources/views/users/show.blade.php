@@ -1,4 +1,4 @@
-@vite(['resources/js/change-password.js']);
+@vite(['resources/js/change-password.js'])
 
 <x-layout.layout>
   <div class="flex flex-col gap-1">
