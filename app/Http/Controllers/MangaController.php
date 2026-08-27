@@ -15,23 +15,26 @@ class MangaController extends Controller
     public function index()
     {
         $query = '
-        query ($id: Int) {
-          Media (id: $id) {
-            id
-            title {
-              english
-              romaji
+        query ($page: Int) {
+          manga: Page(page: $page, perPage: 10) {
+              media(type: MANGA, sort: SCORE_DESC) {
+                id
+                title {
+                  english
+                  romaji
+                }
+                type
+                averageScore
+                chapters
+                volumes
+                status
+                description
+                coverImage {
+                    medium
+                    extraLarge
+                }
+              }
             }
-            type
-            averageScore
-            chapters
-            volumes
-            status
-            description
-            coverImage {
-                extraLarge
-            }
-          }
         }
         ';
  
@@ -46,7 +49,7 @@ class MangaController extends Controller
 
         $jsonData = $respone->json();
 
-        return view('mangas.index', ['mangas' => $jsonData["data"]["Media"]]);
+        return view('mangas.index', ['mangas' => $jsonData["data"]["manga"]["media"]]);
     }
 
     /**
