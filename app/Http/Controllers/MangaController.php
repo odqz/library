@@ -14,37 +14,22 @@ class MangaController extends Controller
      */
     public function index()
     {
-        $query = '
-        query ($page: Int) {
-          manga: Page(page: $page, perPage: 10) {
+        $query = 'query ($page: Int) {
+          manga: Page(page: $page, perPage: 15) {
               media(type: MANGA, sort: SCORE_DESC) {
-                id
-                title {
-                  english
-                  romaji
-                }
-                type
-                averageScore
-                chapters
-                volumes
-                status
-                description
+                title {english romaji } 
+                averageScore 
+                status 
+                genres
                 coverImage {
                     medium
-                    extraLarge
                 }
               }
             }
-        }
-        ';
- 
-        $variables = [
-            "id" => 37375
-        ];
+        }';
  
         $respone = Http::post('https://graphql.anilist.co', [
             'query' => $query,
-            'variables' => $variables
         ]);
 
         $jsonData = $respone->json();
