@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAnimeRequest;
 use App\Http\Requests\UpdateAnimeRequest;
 use App\Models\Anime;
+use Illuminate\Support\Facades\Http;
 
 class AnimeController extends Controller
 {
@@ -13,7 +14,29 @@ class AnimeController extends Controller
      */
     public function index()
     {
-        //
+        $query = 'query ($page: Int) {
+          anime: Page(page: $page, perPage: 15) {
+              media(type: ANIME, sort: SCORE_DESC) {
+                title {english romaji } 
+                averageScore 
+                status 
+                genres
+                coverImage {
+                    medium
+                }
+              }
+            }
+        }';
+ 
+        $respone = Http::post('https://graphql.anilist.co', [
+            'query' => $query,
+        ]);
+
+        $jsonData = $respone->json();
+
+        // dd($jsonData);
+
+        return view('animes.index', ['animes' => $jsonData["data"]["anime"]["media"]]);
     }
 
     /**
