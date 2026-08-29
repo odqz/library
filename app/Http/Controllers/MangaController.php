@@ -15,16 +15,20 @@ class MangaController extends Controller
     public function index()
     {
         $query = 'query ($page: Int) {
-          manga: Page(page: $page, perPage: 15) {
-              media(type: MANGA, sort: SCORE_DESC) {
-                title {english romaji } 
-                averageScore 
-                status 
-                genres
-                coverImage {
-                    medium
+            manga: Page(page: $page, perPage: 15) {
+                media(type: MANGA, sort: SCORE_DESC) {
+                    id
+                    title {
+                        english 
+                        romaji 
+                    } 
+                    averageScore 
+                    status 
+                    genres
+                    coverImage {
+                        medium
+                    }
                 }
-              }
             }
         }';
  
@@ -56,9 +60,65 @@ class MangaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Manga $manga)
+    public function show(Int $manga)
     {
-        //
+        $query = 'query ($id: Int) {
+            Media(id: $id, type: MANGA) {
+                title {
+                    english 
+                    romaji 
+                } 
+                averageScore
+                favourites
+                volumes
+                chapters
+                status 
+                genres
+                isAdult
+                description
+                countryOfOrigin
+                popularity
+                characters {
+                    edges {
+                        role
+                        node {
+                            image {
+                                medium
+                            }
+                            name {
+                                full
+                            }
+                        }
+                    }
+                }
+                staff {
+                    edges {
+                        role
+                        node {
+                            name {
+                                full
+                            }
+                        }
+                    }
+                }
+                coverImage {
+                    extraLarge
+                }
+            }
+        }';
+ 
+        $variables = [
+            "id" => $manga, 
+        ];
+
+        $respone = Http::post('https://graphql.anilist.co', [
+            'query' => $query,
+            'variables' => $variables,
+        ]);
+
+        $jsonData = $respone->json();
+
+        return view('mangas.show', ['manga' => $jsonData["data"]["Media"]]);
     }
 
     /**

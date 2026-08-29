@@ -13,7 +13,7 @@
         </div>
         <div class="flex flex-col">
           @if($manga["title"]["english"] != NULL)
-            <a href="" class="text-xl text-(--logo-blue) font-bold">{{ $manga["title"]["english"] }}</a>
+            <a href="/mangas/{{$manga["id"]}}" class="text-xl text-(--logo-blue) font-bold">{{ $manga["title"]["english"] }}</a>
           @else
             <a href="" class="text-xl text-(--logo-blue) font-bold">{{ $manga["title"]["romaji"] }}</a>
           @endif
