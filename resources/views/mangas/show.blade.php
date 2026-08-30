@@ -1,35 +1,53 @@
 <x-layout.layout>
-  <div class="flex gap-4">
+  <div class="flex gap-6">
     <div class="shrink-0">
       <img src="{{ $manga["coverImage"]["extraLarge"] }}" alt="" class="w-75 h-105">
+      <div>
+        <h2 class="text-2xl text-(--logo-blue) font-bold w-75">{{ $manga["title"]["english"] }}</h2>
+        <p><span class="font-bold">Volumes:</span>@if($manga["volumes"] == NULL) null @else {{ $manga["volumes"] }} @endif</p>
+        <p><span class="font-bold">Chapters:</span>@if($manga["chapters"] == NULL) null @else {{ $manga["chapters"] }} @endif</p>
+        <p><span class="font-bold">Status:</span> {{ $manga["status"] }}</p>
+        <p><span class="font-bold">Score:</span> {{ $manga["averageScore"] }}</p>
+        <p><span class="font-bold">Favourites:</span> {{ $manga["favourites"] }}</p>
+        <p><span class="font-bold">Country:</span> {{ $manga["countryOfOrigin"] }}</p>
+        <p><span class="font-bold">Adult:</span> @if($manga["isAdult"] == NULL) False @else True @endif</p>
+        <div>
+          <p><span class="font-bold">Genres:</span></p>
+          @foreach($manga["genres"] as $genre)
+            <p class="text-(--logo-blue)">- {{ $genre }}</p>
+          @endforeach
+        </div>
+      </div>
     </div>
-    <div class="flex flex-col gap-2">
-      <h2 class="text-4xl text-(--logo-blue) font-bold">{{ $manga["title"]["english"] }}</h2>
-      <p>{{ $manga["description"] }}</p>
-      <table class="min-w-full divide-y border">
-        <thead>
-          <tr class="flex justify-between">
-            <th class="p-1 text-start text-xs">VOLUMES</th>
-            <th class="p-1 text-start text-xs">CHAPTERS</th>
-            <th class="p-1 text-start text-xs">STATUS</th>
-            <th class="p-1 text-start text-xs">SCORE</th>
-            <th class="p-1 text-start text-xs">FAVOURITES</th>
-            <th class="p-1 text-start text-xs">POPULARITY</th>
-            <th class="p-1 text-start text-xs">COUNTRY</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="flex justify-between">
-            <td class="p-1 text-sm">@if($manga["volumes"] == NULL) null @else $manga["volumes"] @endif</td>
-            <td class="p-1 text-sm">@if($manga["chapters"] == NULL) null @else $manga["chapters"] @endif</td>
-            <td class="p-1 text-sm">{{ $manga["status"] }}</td>
-            <td class="p-1 text-sm">{{ $manga["averageScore"] }}</td>
-            <td class="p-1 text-sm">{{ $manga["favourites"] }}</td>
-            <td class="p-1 text-sm">{{ $manga["popularity"] }}</td>
-            <td class="p-1 text-sm">{{ $manga["countryOfOrigin"] }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="flex flex-col gap-4">
+      <div>
+        <h3 class="text-xl font-bold">Plot</h3>
+        <p class="text-m">{{ $manga["description"] }}</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold">Creators</h3>
+        <div class="flex flex-wrap gap-12">
+          @for($i = 0; $i < 3; $i++)
+            <div class="w-25">
+              <img src="{{ $manga["staff"]["edges"][$i]["node"]["image"]["medium"] }}" alt="">
+               <p class="text-sm font-bold">{{ $manga["staff"]["edges"][$i]["node"]["name"]["full"] }}</p>
+               <p class="text-sm">{{ $manga["staff"]["edges"][$i]["role"] }}</p>
+            </div>
+          @endfor
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold">Characters</h3>
+        <div class="flex flex-wrap gap-12">
+          @for($i = 0; $i < 16; $i++)
+            <div class="w-25">
+              <img src="{{ $manga["characters"]["edges"][$i]["node"]["image"]["medium"] }}" alt="">
+               <p class="text-sm font-bold">{{ $manga["characters"]["edges"][$i]["node"]["name"]["full"] }}</p>
+               <p class="text-sm">{{ $manga["characters"]["edges"][$i]["role"] }}</p>
+            </div>
+          @endfor
+        </div>
+      </div>
     </div>
   </div>
 </x-layout.layout>
