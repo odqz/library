@@ -15,7 +15,7 @@
           @if($manga["title"]["english"] != NULL)
             <a href="/mangas/{{$manga["id"]}}" class="text-xl text-(--logo-blue) font-bold">{{ $manga["title"]["english"] }}</a>
           @else
-            <a href="" class="text-xl text-(--logo-blue) font-bold">{{ $manga["title"]["romaji"] }}</a>
+            <a href="/mangas/{{$manga["id"]}}" class="text-xl text-(--logo-blue) font-bold">{{ $manga["title"]["romaji"] }}</a>
           @endif
           <p class="text-[#505050]">Score: {{ $manga["averageScore"] }}/100</p>
           <p class="text-[#505050]">Status: {{ $manga["status"] }}</p>
