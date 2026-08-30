@@ -77,16 +77,15 @@ class MangaController extends Controller
                 isAdult
                 description
                 countryOfOrigin
-                popularity
                 characters {
                     edges {
                         role
                         node {
-                            image {
-                                medium
-                            }
                             name {
                                 full
+                            }
+                            image {
+                                medium
                             }
                         }
                     }
@@ -97,6 +96,9 @@ class MangaController extends Controller
                         node {
                             name {
                                 full
+                            }
+                            image {
+                                medium
                             }
                         }
                     }
