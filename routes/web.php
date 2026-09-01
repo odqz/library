@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mangas/', [MangaController::class, 'index']);
     Route::get('/animes/', [AnimeController::class, 'index']);
     Route::get('/mangas/{manga}', [MangaController::class, 'show']);
+    Route::get('/animes/{anime}', [AnimeController::class, 'show']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::delete('/logout', [SessionsController::class, 'destroy']);
     Route::delete('/delete-account', [UserController::class, 'destroy']);

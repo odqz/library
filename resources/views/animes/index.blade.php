@@ -13,9 +13,9 @@
         </div>
         <div class="flex flex-col">
           @if($anime["title"]["english"] != NULL)
-            <a href="" class="text-xl text-(--logo-blue) font-bold">{{ $anime["title"]["english"] }}</a>
+            <a href="{{ $anime["id"] }}" class="text-xl text-(--logo-blue) font-bold">{{ $anime["title"]["english"] }}</a>
           @else
-            <a href="" class="text-xl text-(--logo-blue) font-bold">{{ $anime["title"]["romaji"] }}</a>
+            <a href="{{ $anime["id"] }}" class="text-xl text-(--logo-blue) font-bold">{{ $anime["title"]["romaji"] }}</a>
           @endif
           <p class="text-[#505050]">Score: {{ $anime["averageScore"] }}/100</p>
           <p class="text-[#505050]">Status: {{ $anime["status"] }}</p>
