@@ -27,7 +27,7 @@
       <div>
         <h3 class="text-xl font-bold">Creators</h3>
         <div class="flex flex-wrap gap-12">
-          @for($i = 0; $i < 3; $i++)
+          @for($i = 0; $i < sizeof($manga["staff"]["edges"]); $i++)
             <div class="w-25">
               <img src="{{ $manga["staff"]["edges"][$i]["node"]["image"]["medium"] }}" alt="">
                <p class="text-sm font-bold">{{ $manga["staff"]["edges"][$i]["node"]["name"]["full"] }}</p>
@@ -39,7 +39,7 @@
       <div>
         <h3 class="text-xl font-bold">Characters</h3>
         <div class="flex flex-wrap gap-12">
-          @for($i = 0; $i < 16; $i++)
+          @for($i = 0; $i < sizeof($manga["characters"]["edges"]); $i++)
             <div class="w-25">
               <img src="{{ $manga["characters"]["edges"][$i]["node"]["image"]["medium"] }}" alt="">
                <p class="text-sm font-bold">{{ $manga["characters"]["edges"][$i]["node"]["name"]["full"] }}</p>
