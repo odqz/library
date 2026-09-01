@@ -15,16 +15,20 @@ class AnimeController extends Controller
     public function index()
     {
         $query = 'query ($page: Int) {
-          anime: Page(page: $page, perPage: 15) {
-              media(type: ANIME, sort: SCORE_DESC) {
-                title {english romaji } 
-                averageScore 
-                status 
-                genres
-                coverImage {
-                    medium
+            anime: Page(page: $page, perPage: 30) {
+                media(type: ANIME, sort: SCORE_DESC) {
+                id
+                  title {
+                      english 
+                      romaji 
+                  } 
+                  averageScore 
+                  status 
+                  genres
+                  coverImage {
+                      medium
+                  }
                 }
-              }
             }
         }';
  
@@ -33,8 +37,6 @@ class AnimeController extends Controller
         ]);
 
         $jsonData = $respone->json();
-
-        // dd($jsonData);
 
         return view('animes.index', ['animes' => $jsonData["data"]["anime"]["media"]]);
     }
@@ -58,9 +60,66 @@ class AnimeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Anime $anime)
+    public function show(iNT $anime)
     {
-        //
+        $query = 'query ($id: Int) {
+            Media(id: $id, type: ANIME) {
+                title {
+                    english 
+                    romaji 
+                } 
+                averageScore
+                favourites
+                episodes
+                status 
+                genres
+                isAdult
+                description
+                countryOfOrigin
+                characters {
+                    edges {
+                        role
+                        node {
+                            name {
+                                full
+                            }
+                            image {
+                                medium
+                            }
+                        }
+                    }
+                }
+                staff {
+                    edges {
+                        role
+                        node {
+                            name {
+                                full
+                            }
+                            image {
+                                medium
+                            }
+                        }
+                    }
+                }
+                coverImage {
+                    extraLarge
+                }
+            }
+        }';
+ 
+        $variables = [
+            "id" => $anime,
+        ];
+
+        $respone = Http::post('https://graphql.anilist.co', [
+            'query' => $query,
+            'variables' => $variables,
+        ]);
+
+        $jsonData = $respone->json();
+
+        return view('animes.show', ['anime' => $jsonData["data"]["Media"]]);
     }
 
     /**

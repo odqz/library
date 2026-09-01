@@ -15,7 +15,7 @@ class MangaController extends Controller
     public function index()
     {
         $query = 'query ($page: Int) {
-            manga: Page(page: $page, perPage: 15) {
+            manga: Page(page: $page, perPage: 30) {
                 media(type: MANGA, sort: SCORE_DESC) {
                     id
                     title {
