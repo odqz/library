@@ -1,3 +1,5 @@
+@vite(['resources/js/manga-change-list-display.js'])
+
 <x-layout.layout>
   <div class="flex gap-6">
     <div class="shrink-0">
@@ -25,10 +27,11 @@
         <p class="text-m">{{ $manga["description"] }}</p>
       </div>
       <div>
-        <h3 class="text-xl font-bold">Creators</h3>
+        <h3 class="text-xl font-bold">Staff</h3>
+        <button class="manga-staff-btn underline text-(--logo-blue) cursor-pointer text-sm">hide</button>
         <div class="flex flex-wrap gap-12">
           @for($i = 0; $i < sizeof($manga["staff"]["edges"]); $i++)
-            <div class="w-25">
+            <div class="w-25 staff">
               <img src="{{ $manga["staff"]["edges"][$i]["node"]["image"]["medium"] }}" alt="">
                <p class="text-sm font-bold">{{ $manga["staff"]["edges"][$i]["node"]["name"]["full"] }}</p>
                <p class="text-sm">{{ $manga["staff"]["edges"][$i]["role"] }}</p>
@@ -38,9 +41,10 @@
       </div>
       <div>
         <h3 class="text-xl font-bold">Characters</h3>
+        <button class="manga-chars-btn underline text-(--logo-blue) cursor-pointer text-sm">hide</button>
         <div class="flex flex-wrap gap-12">
           @for($i = 0; $i < sizeof($manga["characters"]["edges"]); $i++)
-            <div class="w-25">
+            <div class="w-25 char">
               <img src="{{ $manga["characters"]["edges"][$i]["node"]["image"]["medium"] }}" alt="">
                <p class="text-sm font-bold">{{ $manga["characters"]["edges"][$i]["node"]["name"]["full"] }}</p>
                <p class="text-sm">{{ $manga["characters"]["edges"][$i]["role"] }}</p>
