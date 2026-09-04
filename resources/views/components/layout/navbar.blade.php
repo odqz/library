@@ -9,12 +9,12 @@
       <p>|</p>
       <a href="/mangas/">manga</a>
       <p>|</p>
-      <a href="/users/">my shelf</a>
+      <a href="/users/{{Auth::user()->id}}">my shelf</a>
     </div>
   </div>
   <div class="flex item-center">
     @if(Auth::check())
-      <a href="/users/{{Auth::user()->id}}">{{Auth::user()->username}}</a>
+      <a href="/users/{{Auth::user()->id}}/edit">{{Auth::user()->username}}</a>
       <p>|</p>
       <form action="/logout" method="post">
         @csrf

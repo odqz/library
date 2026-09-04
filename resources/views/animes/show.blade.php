@@ -18,6 +18,9 @@
             <p class="text-(--logo-blue)">- {{ $genre }}</p>
           @endforeach
         </div>
+        <form action="" method="post">
+          <button class="bg-(--good-green) text-(--text-white) mt-2 py-0.5 px-1 w-full cursor-pointer" type="button">Add to library</button>
+        </form>
       </div>
     </div>
     <div class="flex flex-col gap-4">
