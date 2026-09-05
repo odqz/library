@@ -8,8 +8,10 @@
       <a href="/animes/">anime</a>
       <p>|</p>
       <a href="/mangas/">manga</a>
-      <p>|</p>
-      <a href="/users/{{Auth::user()->id}}">my shelf</a>
+      @if(Auth::check())
+        <p>|</p>
+        <a href="/users/{{Auth::user()->id}}">my shelf</a>
+      @endif
     </div>
   </div>
   <div class="flex item-center">

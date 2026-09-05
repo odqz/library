@@ -9,4 +9,6 @@ class Manga extends Model
 {
     /** @use HasFactory<\Database\Factories\MangaFactory> */
     use HasFactory;
+
+    public $incrementing = false;
 }
