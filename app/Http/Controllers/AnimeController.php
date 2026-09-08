@@ -36,9 +36,9 @@ class AnimeController extends Controller
             'query' => $query,
         ]);
 
-        $jsonData = $respone->json();
+        $animes = $respone->json();
 
-        return view('animes.index', ['animes' => $jsonData["data"]["anime"]["media"]]);
+        return view('animes.index', ['animes' => $animes["data"]]);
     }
 
     /**
@@ -117,9 +117,9 @@ class AnimeController extends Controller
             'variables' => $variables,
         ]);
 
-        $jsonData = $respone->json();
+        $anime = $respone->json();
 
-        return view('animes.show', ['anime' => $jsonData["data"]["Media"]]);
+        return view('animes.show', ['anime' => $anime["data"]]);
     }
 
     /**

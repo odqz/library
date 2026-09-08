@@ -36,9 +36,9 @@ class MangaController extends Controller
             'query' => $query,
         ]);
 
-        $jsonData = $respone->json();
+        $mangas = $respone->json();
 
-        return view('mangas.index', ['mangas' => $jsonData["data"]["manga"]["media"]]);
+        return view('mangas.index', ['mangas' => $mangas["data"]]);
     }
 
     /**
@@ -118,9 +118,9 @@ class MangaController extends Controller
             'variables' => $variables,
         ]);
 
-        $jsonData = $respone->json();
+        $manga = $respone->json();
 
-        return view('mangas.show', ['manga' => $jsonData["data"]["Media"]]);
+        return view('mangas.show', ['manga' => $manga["data"]]);
     }
 
     /**
