@@ -20,10 +20,10 @@ return new class extends Migration
             $table->integer('volumes')->nullable();
             $table->integer('chapters')->nullable();
             $table->string('status')->nullable();
-            $table->string('genres')->nullable();
+            $table->string('genres')->default('[]')->nullable();
             $table->boolean('is_adult')->nullable();
             $table->text('description')->nullable();
-            $table->string('countryOfOrigin')->nullable();
+            $table->string('country_of_origin')->nullable();
             $table->string('cover_image_path')->nullable();
             $table->timestamps();
         });
