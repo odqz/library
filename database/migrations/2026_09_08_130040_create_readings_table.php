@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('readings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignId(Manga::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Manga::class)->constrained()->cascadeOnDelete();
             $table->integer('chapters_read')->nullable();
             $table->integer('volumes_read')->nullable();
             $table->string('status')->nullable(); // planned, reading, completed, dropped, paused

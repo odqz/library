@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('watchings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignId(Anime::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Anime::class)->constrained()->cascadeOnDelete();
             $table->integer('episodes_watched')->nullable();
             $table->string('status')->nullable(); // planned, reading, completed, dropped, paused
             $table->integer('rating')->nullable(); // raiting out of 10
