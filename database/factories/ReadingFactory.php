@@ -32,7 +32,7 @@ class ReadingFactory extends Factory
             'volumes_read' => fake()->numberBetween(0, $manga->volumes),
             'status' => fake()->word(),
             'rating' => fake()->randomNumber(2),
-            'review' => fake()->text(),
+            'review' => fake()->paragraph(),
         ];
     }
 }
