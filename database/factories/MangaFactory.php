@@ -37,11 +37,3 @@ class MangaFactory extends Factory
         ];
     }
 }
-
-// Need to make a reading factory which randomly chooses a manga and a user
-// Then uses their ids as the keys for them
-// The other info would be generated using fake()
-// The shelf page would then be the user show page which would get all the users readings and from that get the manga
-// When the user clicks on page it would take them to the manga#show page which would also have their data like volumes: 10/40 instead of just 40
-// Each show page would need to also have a remove from library page
-// The manga/anime show all page would use the api but if thats not availbe would default to just the data stored in my DB
