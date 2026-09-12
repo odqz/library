@@ -18,6 +18,16 @@ class Manga extends Model
         'genres' => AsArrayObject::class,
     ];
 
+    public function staff(): HasMany
+    {
+        return $this->hasMany(Staff::class);
+    }
+
+    public function characters(): HasMany
+    {
+        return $this->hasMany(Character::class);
+    }
+
     public function readings(): HasMany
     {
         return $this->hasMany(Reading::class);
