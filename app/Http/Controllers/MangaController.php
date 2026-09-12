@@ -36,9 +36,10 @@ class MangaController extends Controller
             'query' => $query,
         ]);
 
-        $mangas = $respone->json();
+        $json = $respone->json();
+        $mangas = $json["data"];
 
-        return view('mangas.index', ['mangas' => $mangas["data"]]);
+        return $mangas == null ? view('api-error') : view('mangas.index', ['mangas', $mangas]);
     }
 
     /**
@@ -60,7 +61,42 @@ class MangaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Int $manga)
+    public function show(Int $id)
+    {
+        $manga = Manga::find($id);
+  
+        if ($manga == null) {
+            $manga = $this->getManga($id);
+        }
+
+        return $manga == null ? view('api-error') : view('mangas.show', ['manga' => $manga]);    
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Manga $manga)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateMangaRequest $request, Manga $manga)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Manga $manga)
+    {
+        //
+    }
+
+    public function getManga(Int $id)
     {
         $query = 'query ($id: Int) {
             Media(id: $id, type: MANGA) {
@@ -108,9 +144,9 @@ class MangaController extends Controller
                 }
             }
         }';
- 
+
         $variables = [
-            "id" => $manga, 
+            "id" => $id, 
         ];
 
         $respone = Http::post('https://graphql.anilist.co', [
@@ -118,32 +154,8 @@ class MangaController extends Controller
             'variables' => $variables,
         ]);
 
-        $manga = $respone->json();
+        $json = $respone->json();
 
-        return view('mangas.show', ['manga' => $manga["data"]]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Manga $manga)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateMangaRequest $request, Manga $manga)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Manga $manga)
-    {
-        //
+        return $json["data"]["media"];
     }
 }
