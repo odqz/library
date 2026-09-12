@@ -19,14 +19,10 @@ class ReadingFactory extends Factory
      */
     public function definition(): array
     {
-        $users = User::all();
-        $mangas = Manga::all();
-
-        $user = $users[rand(0, sizeof($users) - 1)];
-        $manga = $mangas[rand(0, sizeof($mangas) - 1)];
+        $manga = Manga::first();
 
         return [
-            'user_id' => $user->id,
+            'user_id' => User::first(),
             'manga_id' => $manga->id,
             'chapters_read' => fake()->numberBetween(0, $manga->chapters),
             'volumes_read' => fake()->numberBetween(0, $manga->volumes),

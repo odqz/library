@@ -21,7 +21,7 @@ class AnimeFactory extends Factory
 
         return [            
             'id' => fake()->randomNumber(2),
-            'title_english' =>  $name,
+            'title_english' => $name,
             'title_romaji' => $name,
             'average_score' => fake()->randomNumber(2),
             'favourites' => fake()->randomNumber(5),
