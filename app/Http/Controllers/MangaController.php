@@ -14,32 +14,8 @@ class MangaController extends Controller
      */
     public function index()
     {
-        $query = 'query ($page: Int) {
-            manga: Page(page: $page, perPage: 30) {
-                media(type: MANGA, sort: SCORE_DESC) {
-                    id
-                    title {
-                        english 
-                        romaji 
-                    } 
-                    averageScore 
-                    status 
-                    genres
-                    coverImage {
-                        medium
-                    }
-                }
-            }
-        }';
- 
-        $respone = Http::post('https://graphql.anilist.co', [
-            'query' => $query,
-        ]);
-
-        $json = $respone->json();
-        $mangas = $json["data"];
-
-        return $mangas == null ? view('api-error') : view('mangas.index', ['mangas', $mangas]);
+        $mangas = $this->getMultipleMangas();
+        return $mangas["data"] == null ? view('api-error') : view('mangas.index', ['mangas' => $this->convertMangasDetails($mangas["data"]["manga"]["media"])]);
     }
 
     /**
@@ -59,17 +35,16 @@ class MangaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * This function displays the manga show page but also adds the manga to the db if it doesnt already exist
      */
     public function show(Int $id)
     {
-        $manga = Manga::find($id);
-  
-        if ($manga == null) {
-            $manga = $this->getManga($id);
+        if (Manga::where('id', $id)->exists()) {
+            return view('mangas.show', ['manga' => Manga::find($id)]);
+        } else {
+            $manga = $this->getIndividualManga($id);
+            return $manga["data"] == null ? view('api-error') : view('mangas.show', ['manga' => $this->createManga($manga["data"]["Media"])]);
         }
-
-        return $manga == null ? view('api-error') : view('mangas.show', ['manga' => $manga]);    
     }
 
     /**
@@ -96,10 +71,38 @@ class MangaController extends Controller
         //
     }
 
-    public function getManga(Int $id)
+    public function getMultipleMangas()
+    {
+        $query = 'query ($page: Int) {
+            manga: Page(page: $page, perPage: 30) {
+                media(type: MANGA, sort: SCORE_DESC) {
+                    id
+                    title {
+                        english 
+                        romaji 
+                    } 
+                    averageScore 
+                    status 
+                    genres
+                    coverImage {
+                        medium
+                    }
+                }
+            }
+        }';
+ 
+        $respone = Http::post('https://graphql.anilist.co', [
+            'query' => $query,
+        ]);
+
+        return $respone->json();
+    }
+
+    public function getIndividualManga(Int $id)
     {
         $query = 'query ($id: Int) {
             Media(id: $id, type: MANGA) {
+                id
                 title {
                     english 
                     romaji 
@@ -154,8 +157,62 @@ class MangaController extends Controller
             'variables' => $variables,
         ]);
 
-        $json = $respone->json();
+        return $respone->json();
+    }
 
-        return $json["data"]["media"];
+    public function convertMangasDetails(Array $mangasArray)
+    {
+        $mangas = [];
+
+        for ($i = 0; $i < sizeof($mangasArray); $i++) {
+            $mangas[$i] = new Manga([
+                'id' => $mangasArray[$i]["id"],
+                'title_english' => $mangasArray[$i]["title"]["english"],
+                'title_romaji' => $mangasArray[$i]["title"]["romaji"],
+                'average_score' => $mangasArray[$i]["averageScore"],
+                'status' => $mangasArray[$i]["status"],
+                'genres' => $mangasArray[$i]["genres"],
+                'cover_image_path' => $mangasArray[$i]["coverImage"]["medium"],
+            ]);
+        }
+
+        return $mangas;
+    }
+
+    public function createManga(Array $mangaArray)
+    {
+        $manga = Manga::create([
+            'id' => $mangaArray["id"],
+            'title_english' => $mangaArray["title"]["english"],
+            'title_romaji' => $mangaArray["title"]["romaji"],
+            'average_score' => $mangaArray["averageScore"],
+            'favourites' => $mangaArray["favourites"],
+            'volumes' => $mangaArray["volumes"],
+            'chapters' => $mangaArray["chapters"],
+            'status' => $mangaArray["status"],
+            'genres' => $mangaArray["genres"],
+            'is_adult' => $mangaArray["description"],
+            'description' => $mangaArray["description"],
+            'country_of_origin' => $mangaArray["countryOfOrigin"],
+            'cover_image_path' => $mangaArray["coverImage"]["extraLarge"],
+        ]);
+
+        foreach ($mangaArray["staff"]["edges"] as $staff) {
+            $manga->staff()->create([
+                'name' => $staff["node"]["name"]["full"],
+                'role' => $staff["role"],
+                'image_path' => $staff["node"]["image"]["medium"],
+            ]);
+        }
+
+        foreach ($mangaArray["characters"]["edges"] as $char) {
+            $manga->characters()->create([
+                'name' => $char["node"]["name"]["full"],
+                'role' => $char["role"],
+                'image_path' => $char["node"]["image"]["medium"],
+            ]);
+        }
+
+        return $manga;
     }
 }
