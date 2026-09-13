@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reading;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReadingController extends Controller
 {
@@ -18,17 +19,26 @@ class ReadingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Int $id)
     {
-        //
+        return view('readings.create', ['manga_id' => $id]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Int $id)
     {
-        //
+        $reading = Auth::user()->readings()->create([
+            'manga_id' => $id,
+            'chapters_read' => $request->chapters,
+            'volumes_read' => $request->volumes,
+            'status' => $request->status,
+            'rating' => $request->score,
+            'review' => $request->notes,
+        ]);
+
+        return redirect('mangas');
     }
 
     /**
