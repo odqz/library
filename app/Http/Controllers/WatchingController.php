@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anime;
 use App\Models\Watching;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WatchingController extends Controller
 {
@@ -18,17 +20,25 @@ class WatchingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Int $id)
     {
-        //
+        return view('watchings.create', ['anime' => Anime::find($id)]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Int $id)
     {
-        //
+        $watching = Auth::user()->watchings()->create([
+            'anime_id' => $id,
+            'episodes_watched' => $request->episodes,
+            'status' => $request->status,
+            'score' => $request->score,
+            'notes' => $request->notes,
+        ]);
+
+        return redirect("/animes/$id");
     }
 
     /**
@@ -44,7 +54,7 @@ class WatchingController extends Controller
      */
     public function edit(Watching $watching)
     {
-        //
+        return view('watchings.edit', ['watching' => $watching, 'anime' => $watching->anime]);
     }
 
     /**
@@ -52,7 +62,16 @@ class WatchingController extends Controller
      */
     public function update(Request $request, Watching $watching)
     {
-        //
+        $watching = $watching->update([
+            'episodes_watched' => $request->episodes,
+            'status' => $request->status,
+            'score' => $request->score,
+            'notes' => $request->notes,
+        ]);
+
+        $id = Auth::user()->id;
+
+        return redirect("/users/$id");
     }
 
     /**
@@ -60,6 +79,10 @@ class WatchingController extends Controller
      */
     public function destroy(Watching $watching)
     {
-        //
+        $watching->delete();
+
+        $id = Auth::user()->id;
+
+        return redirect("/users/$id");
     }
 }
