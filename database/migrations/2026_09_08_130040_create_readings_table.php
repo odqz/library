@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreignIdFor(Manga::class)->constrained()->cascadeOnDelete();
             $table->integer('chapters_read')->nullable();
             $table->integer('volumes_read')->nullable();
-            $table->string('status')->nullable(); // planned, reading, completed, dropped, paused
-            $table->integer('rating')->nullable(); // raiting out of 10
-            $table->text('review')->nullable();
+            $table->string('status')->nullable();
+            $table->integer('score')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

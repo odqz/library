@@ -18,9 +18,9 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Anime::class)->constrained()->cascadeOnDelete();
             $table->integer('episodes_watched')->nullable();
-            $table->string('status')->nullable(); // planned, reading, completed, dropped, paused
-            $table->integer('rating')->nullable(); // raiting out of 10
-            $table->text('review')->nullable();
+            $table->string('status')->nullable();
+            $table->integer('score')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
