@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Manga;
 use App\Models\Reading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class ReadingController extends Controller
      */
     public function create(Int $id)
     {
-        return view('readings.create', ['manga_id' => $id]);
+        return view('readings.create', ['manga' => Manga::find($id)]);
     }
 
     /**
@@ -34,11 +35,13 @@ class ReadingController extends Controller
             'chapters_read' => $request->chapters,
             'volumes_read' => $request->volumes,
             'status' => $request->status,
-            'rating' => $request->score,
-            'review' => $request->notes,
+            'score' => $request->score,
+            'notes' => $request->notes,
         ]);
 
-        return redirect('mangas');
+        $userid = Auth::user()->id;    
+
+        return redirect("/users/$userid");
     }
 
     /**
@@ -70,6 +73,10 @@ class ReadingController extends Controller
      */
     public function destroy(Reading $reading)
     {
-        //
+        $reading->delete();
+
+        $id = Auth::user()->id;
+
+        return redirect("/users/$id");
     }
 }
