@@ -18,6 +18,9 @@
             <p class="text-(--logo-blue)">- {{ $genre }}</p>
           @endforeach
         </div>
+        <div class="flex">
+          <a href="/watchings/new/{{ $anime->id }}" class="text-(--text-white) bg-(--good-green) w-max mt-2 py-0.5 flex-1 text-center">Add to library</a>
+        </div>
       </div>
     </div>
     <div class="flex flex-col gap-4">
