@@ -5,72 +5,62 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAnimeRequest;
 use App\Http\Requests\UpdateAnimeRequest;
 use App\Models\Anime;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class AnimeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $anime = $this->getMultipleAnimes();
-        return $anime["data"] == null ? view('api-error') : view('animes.index', ['animes' => $this->convertAnimesDetails($anime["data"]["anime"]["media"])]);
-    }
+        // Gets the top 30 animes from the AniList API
+        $animes = $this->getMultipleAnimes();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        if ($animes["data"] != null) {
+            // Converts each anime from an array to a Eloquent Anime model object
+            $animes = $this->convertAnimesDetails($animes["data"]["anime"]["media"]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAnimeRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Int $id)
-    {
-        if (Anime::where('id', $id)->exists()) {
-            return view('animes.show', ['anime' => Anime::find($id)]);
+            return view("animes.index", ['animes' => $animes]);
         } else {
-            $anime = $this->getIndividualAnime($id);
-            return $anime["data"] == null ? view('api-error') : view('animes.show', ['anime' => $this->createAnime($anime["data"]["Media"])]);
+            return view('api-error');
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
+    /** 
+     * Looks for the anime in the database
+     * If it doesnt exist it gets the anime from the AniList API then creates it in the database
      */
-    public function edit(Anime $anime)
+    public function store(Int $id)
     {
-        //
+        $anime = Anime::find($id);
+
+        if ($anime == null) {
+            $anime = $this->getIndividualAnime($id);
+            // If API returns a anime then it adds it to the database, otherwise returns null to indicate API error
+            $anime = $anime["data"] != null ? $this->createAnime($anime["data"]["Media"]) : null;
+        }
+
+        return $anime;
     }
 
     /**
-     * Update the specified resource in storage.
+     * Creates the anime in the database then displays that anime with info on whether user has added that anime to their library
      */
-    public function update(UpdateAnimeRequest $request, Anime $anime)
+    public function show(Int $id)
     {
-        //
+        $anime = $this->store($id);
+
+        // If the store function returns null then the API is down
+        if ($anime == null) {
+            return view('api-error');
+        }
+
+        // Checks to see if the currently authenticated user has this anime in their library
+        $inLibrary = $anime->watchings()->where('user_id', Auth::user()->id)->first() != null;
+
+        return view('animes.show', ['anime' => $anime, 'inLibrary' => $inLibrary]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Anime $anime)
-    {
-        //
-    }
-
+    // Gets the top 30 animes for the index page
     public function getMultipleAnimes()
     {
         $query = 'query ($page: Int) {
@@ -98,6 +88,7 @@ class AnimeController extends Controller
         return $respone->json();
     }
 
+    // Gets all the details on an individual anime based on passed id
     public function getIndividualAnime(Int $id)
     {
         $query = 'query ($id: Int) {
@@ -159,6 +150,7 @@ class AnimeController extends Controller
         return $respone->json();
     }
 
+    // Converts the anime array returrned by the API to a Eloquent Manga model object
     public function convertAnimesDetails(Array $animesArray)
     {
         $animes = [];
@@ -178,6 +170,7 @@ class AnimeController extends Controller
         return $animes;
     }
 
+    // Adds the anime to the database and creates the subsequent staff/characters in the database
     public function createAnime(Array $animeArray)
     {
         $anime = Anime::create([

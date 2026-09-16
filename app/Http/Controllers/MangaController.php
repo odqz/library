@@ -5,72 +5,62 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMangaRequest;
 use App\Http\Requests\UpdateMangaRequest;
 use App\Models\Manga;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class MangaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
+        // Gets the top 30 mangas from the AniList API
         $mangas = $this->getMultipleMangas();
-        return $mangas["data"] == null ? view('api-error') : view('mangas.index', ['mangas' => $this->convertMangasDetails($mangas["data"]["manga"]["media"])]);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        if ($mangas["data"] != null) {
+            // Converts each manga from an array to a Eloquent Manga model object
+            $mangas = $this->convertMangasDetails($mangas["data"]["anime"]["media"]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreMangaRequest $request)
-    {
-        //
-    }
-
-    /**
-     * This function displays the manga show page but also adds the manga to the db if it doesnt already exist
-     */
-    public function show(Int $id)
-    {
-        if (Manga::where('id', $id)->exists()) {
-            return view('mangas.show', ['manga' => Manga::find($id)]);
+            return view("mangas.index", ['animes' => $mangas]);
         } else {
-            $manga = $this->getIndividualManga($id);
-            return $manga["data"] == null ? view('api-error') : view('mangas.show', ['manga' => $this->createManga($manga["data"]["Media"])]);
+            return view('api-error');
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
+    /** 
+     * Looks for the manga in the database
+     * If it doesnt exist it gets the manga from the AniList API then creates it in the database
      */
-    public function edit(Manga $manga)
+    public function store(Int $id)
     {
-        //
+        $manga = Manga::find($id);
+
+        if ($manga == null) {
+            $manga = $this->getIndividualManga($id);
+            // If API returns a manga then it adds it to the database, otherwise returns null to indicate API error
+            $manga = $manga["data"] != null ? $this->createManga($manga["data"]["Media"]) : null;
+        }
+
+        return $manga;
     }
 
     /**
-     * Update the specified resource in storage.
+     * Creates the manga in the database then displays that manga with info on whether user has added that manga to their library
      */
-    public function update(UpdateMangaRequest $request, Manga $manga)
+    public function show(Int $id)
     {
-        //
+        $manga = $this->store($id);
+
+        // If the store function returns null then the API is down
+        if ($manga == null) {
+            return view('api-error');
+        }
+
+        // Checks to see if the currently authenticated user has this manga in their library
+        $inLibrary = $manga->watchings()->where('user_id', Auth::user()->id)->first() != null;
+
+        return view('mangas.show', ['manga' => $manga, 'inLibrary' => $inLibrary]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Manga $manga)
-    {
-        //
-    }
-
+    // Gets the top 30 mangas for the index page
     public function getMultipleMangas()
     {
         $query = 'query ($page: Int) {
@@ -98,6 +88,7 @@ class MangaController extends Controller
         return $respone->json();
     }
 
+    // Gets all the details on an individual manga based on passed id
     public function getIndividualManga(Int $id)
     {
         $query = 'query ($id: Int) {
@@ -160,6 +151,7 @@ class MangaController extends Controller
         return $respone->json();
     }
 
+    // Converts the manga array returrned by the API to a Eloquent Manga model object
     public function convertMangasDetails(Array $mangasArray)
     {
         $mangas = [];
@@ -179,6 +171,7 @@ class MangaController extends Controller
         return $mangas;
     }
 
+    // Adds the manga to the database and creates the subsequent staff/characters in the database
     public function createManga(Array $mangaArray)
     {
         $manga = Manga::create([
