@@ -69,11 +69,11 @@
               <p class="text-[#505050]">Score: {{ $reading->score }}/100</p>
               <p class="text-[#505050]">Status: {{ $reading->status }}</p>
               <div class="flex gap-2">
-                <a href="/readings/{{ $reading->id }}" class="text-(--good-green) cursor-pointer">Edit</a>
+                <a href="/readings/{{ $reading->id }}/edit" class="text-(--text-white) bg-(--good-green) px-2 mt-1 cursor-pointer">Edit</a>
                 <form action="/readings/{{ $reading->id }}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="text-(--bad-red) cursor-pointer">Remove</button>
+                  <button class="text-(--text-white) bg-(--bad-red) px-2 mt-1 cursor-pointer">Remove</button>
                 </form>
               </div>
             </div>
