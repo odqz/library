@@ -28,7 +28,7 @@ class Anime extends Model
         return $this->hasMany(Character::class);
     }
 
-    public function readings(): HasMany
+    public function watchings(): HasMany
     {
         return $this->hasMany(Watching::class);
     }
