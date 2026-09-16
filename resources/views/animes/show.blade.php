@@ -19,7 +19,11 @@
           @endforeach
         </div>
         <div class="flex">
-          <a href="/watchings/new/{{ $anime->id }}" class="text-(--text-white) bg-(--good-green) w-max mt-2 py-0.5 flex-1 text-center">Add to library</a>
+          @if ($inLibrary == true)
+            <a href="/users/{{ Auth::user()->id }}" class="bg-(--text-white) w-max mt-2 py-0.5 flex-1 text-center">In library</a>
+          @else
+            <a href="/watchings/new/{{ $anime->id }}" class="text-(--text-white) bg-(--good-green) w-max mt-2 py-0.5 flex-1 text-center">Add to library</a>
+          @endif
         </div>
       </div>
     </div>
