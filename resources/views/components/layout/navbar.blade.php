@@ -1,12 +1,13 @@
 <div class="flex items-center justify-between w-[80%] bg-(--dark-blue) mt-2 text-(--text-white) py-0.5 px-1 pr-2 text-sm">
   <div class="flex items-end gap-1">
-    <a href="/" class="flex items-center">
+    @if(Auth::check())
+      <a href="/users/{{ Auth::user()->id }}" class="flex">
+    @else
+      <a href="/login" class="flex">
+    @endif
       <img src="{{asset('logo.png')}}" alt="Site logo" class="w-8">
-      @if(Auth::check())
-        <a href="/users/{{ Auth::user()->id }}" class="text-[#e9e9e9] font-bold">Library</a>
-      @else
-        <a href="/login" class="text-[#e9e9e9] font-bold">Library</a>
-      @endif
+      <h1 class="text-[#e9e9e9] font-bold">Library</h1>
+    </a>
     </a>
     <div class="flex">
       <a href="/animes/">anime</a>
