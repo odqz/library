@@ -10,14 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class WatchingController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(Int $id)
@@ -38,15 +30,9 @@ class WatchingController extends Controller
             'notes' => $request->notes,
         ]);
 
-        return redirect("/animes/$id");
-    }
+        $user = Auth::user();    
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Watching $watching)
-    {
-        //
+        return redirect("/users/$user->idatew");
     }
 
     /**

@@ -10,14 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class ReadingController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(Int $id)
@@ -39,25 +31,18 @@ class ReadingController extends Controller
             'notes' => $request->notes,
         ]);
 
-        $userid = Auth::user()->id;    
+        $user = Auth::user();    
 
-        return redirect("/users/$userid");
+        return redirect("/users/$user->id");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reading $reading)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Reading $reading)
     {
-        //
+        return view('readings.edit', ['reading' => $reading, 'manga' => $reading->manga]);
     }
 
     /**
@@ -65,7 +50,17 @@ class ReadingController extends Controller
      */
     public function update(Request $request, Reading $reading)
     {
-        //
+        $reading = $reading->update([
+            'volumes_read' => $request->volumes,
+            'chapters_read' => $request->chapters,
+            'status' => $request->status,
+            'score' => $request->score,
+            'notes' => $request->notes,
+        ]);
+
+        $id = Auth::user()->id;
+
+        return redirect("/users/$id");
     }
 
     /**
