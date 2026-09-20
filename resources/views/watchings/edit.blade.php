@@ -27,7 +27,7 @@
         <label for="notes">Notes: </label>
         <textarea name="notes" id="notes" cols="24" rows="3" class="text-[#4d4d4d] outline-none px-1 border">{{ $watching->notes }}</textarea>
       </div>
-      <button class="bg-(--good-green) mt-1 py-0.5 px-4 text-(--text-bright-white) hover:brightness-[94%]" type="submit">Edit</button>
+      <button class="bg-(--good-green) mt-1 py-0.5 px-4 text-(--text-bright-white) hover:brightness-[94%]" type="submit">Submit</button>
       <button class="bg-(--bad-red) mt-1 py-0.5 px-4 text-(--text-bright-white) hover:brightness-[94%]" type="submit" form="delete-watching">Remove</button>
     </form>
     <form action="/watchings/{{ $watching->id }}" method="post" id="delete-watching">

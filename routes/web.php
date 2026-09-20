@@ -4,6 +4,7 @@ use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\ReadingController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WatchingController;
 use Illuminate\Support\Facades\Route;
@@ -35,10 +36,13 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', function () { return view('auth.login'); });
     Route::post('/login', [SessionsController::class, 'store']);
     Route::post('/create-account', [UserController::class, 'store']);
+
 });
 
-Route::get('/animes/', [AnimeController::class, 'index']);
+Route::get('/animes', [AnimeController::class, 'index']);
 Route::get('/animes/{anime}', [AnimeController::class, 'show']);
 
-Route::get('/mangas/', [MangaController::class, 'index']);
+Route::get('/mangas', [MangaController::class, 'index']);
 Route::get('/mangas/{manga}', [MangaController::class, 'show']);
+
+Route::get('/find/anime', [AnimeController::class, 'findAnime']);

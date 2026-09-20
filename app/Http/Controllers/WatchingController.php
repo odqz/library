@@ -32,7 +32,7 @@ class WatchingController extends Controller
 
         $user = Auth::user();    
 
-        return redirect("/users/$user->idatew");
+        return redirect("/users/$user->id");
     }
 
     /**
