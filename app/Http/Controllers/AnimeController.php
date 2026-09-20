@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAnimeRequest;
 use App\Http\Requests\UpdateAnimeRequest;
 use App\Models\Anime;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -60,23 +61,39 @@ class AnimeController extends Controller
         return view('animes.show', ['anime' => $anime, 'inLibrary' => $inLibrary]);
     }
 
+    public function findAnime(Request $request)
+    {
+        // dd($request->all());
+
+        $animes = $this->animeSearch($request->search);
+
+        if ($animes["data"] != null) {
+            // Converts each anime from an array to a Eloquent Anime model object
+            $animes = $this->convertAnimesDetails($animes["data"]["anime"]["media"]);
+
+            return view("animes.index", ['animes' => $animes]);
+        } else {
+            return view('api-error');
+        }
+    }
+
     // Gets the top 30 animes for the index page
     public function getMultipleAnimes()
     {
         $query = 'query ($page: Int) {
             anime: Page(page: $page, perPage: 30) {
                 media(type: ANIME, sort: SCORE_DESC) {
-                id
-                  title {
-                      english 
-                      romaji 
-                  } 
-                  averageScore 
-                  status 
-                  genres
-                  coverImage {
-                      medium
-                  }
+                    id
+                    title {
+                        english 
+                        romaji 
+                    } 
+                    averageScore 
+                    status 
+                    genres
+                    coverImage {
+                        medium
+                    }
                 }
             }
         }';
@@ -205,5 +222,40 @@ class AnimeController extends Controller
         }
 
         return $anime;
+    }
+
+    public function animeSearch(String $name)
+    {
+        $query = 'query ($page: Int, $name: String) {
+            anime: Page(page: $page) {
+                media(type: ANIME, search: $name) {
+                    id
+                    title {
+                        english 
+                        romaji 
+                    } 
+                    averageScore 
+                    status 
+                    genres
+                    coverImage {
+                        medium
+                    }
+                }
+            }
+        }';
+
+        $variables = [
+            "name" => $name,
+        ];
+
+
+        $response = Http::post('https://graphql.anilist.co', [
+            'query' => $query,
+            'variables' => $variables,
+        ]);
+
+        $animes = $response->json();
+
+        return $animes;
     }
 }
