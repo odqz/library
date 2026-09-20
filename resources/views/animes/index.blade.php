@@ -1,10 +1,15 @@
 <x-layout.layout>
   @php $x = 1; @endphp
-  <div class="flex flex-col gap-4"> 
+  <div class="flex flex-col gap-2 w-full">
+    <form action="/find/anime" method="get" class="flex gap-2">
+      <input type="search" name="search" id="search" class="w-[50%] border px-1 outline-none" placeholder="Find an anime...">
+      <label for="search" hidden>Search</label>
+      <button type="submit" class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2">search</button>
+    </form>
     @foreach($animes as $anime)
       <div class="flex gap-2">
         <div>
-          <p>#{{ $x }}</p>
+          <p>#{{ $x = $x < 10 ? "0$x" : "$x" }}</p>
         </div>
         <div class="flex">
           <img src="{{ $anime->cover_image_path }}" 
