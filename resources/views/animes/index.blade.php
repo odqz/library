@@ -1,8 +1,8 @@
 <x-layout.layout>
   @php $x = 1; @endphp
   <div class="flex flex-col gap-2 w-full">
-    <form action="/find/anime" method="get" class="flex gap-2">
-      <input type="search" name="search" id="search" class="w-[50%] border px-1 outline-none" placeholder="Find an anime...">
+    <form action="/find/anime" method="get" class="flex gap-2 w-[30%]">
+      <input type="search" name="search" id="search" class="w-full border px-1 outline-none" placeholder="Find an anime...">
       <label for="search" hidden>Search</label>
       <button type="submit" class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2">search</button>
     </form>
