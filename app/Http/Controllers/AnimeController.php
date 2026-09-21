@@ -63,8 +63,6 @@ class AnimeController extends Controller
 
     public function findAnime(Request $request)
     {
-        // dd($request->all());
-
         $animes = $this->animeSearch($request->search);
 
         if ($animes["data"] != null) {
