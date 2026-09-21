@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMangaRequest;
 use App\Http\Requests\UpdateMangaRequest;
 use App\Models\Manga;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -58,6 +59,20 @@ class MangaController extends Controller
         $inLibrary = $manga->readings()->where('user_id', Auth::user()->id)->first() != null;
 
         return view('mangas.show', ['manga' => $manga, 'inLibrary' => $inLibrary]);
+    }
+
+    public function findManga(Request $request)
+    {
+        $mangas = $this->mangaSearch($request->search);
+
+        if ($mangas["data"] != null) {
+            // Converts each anime from an array to a Eloquent Anime model object
+            $mangas = $this->convertMangasDetails($mangas["data"]["manga"]["media"]);
+
+            return view("mangas.index", ['mangas' => $mangas]);
+        } else {
+            return view('api-error');
+        }
     }
 
     // Gets the top 30 mangas for the index page
@@ -207,5 +222,40 @@ class MangaController extends Controller
         }
 
         return $manga;
+    }
+
+    public function mangaSearch(String $name)
+    {
+        $query = 'query ($page: Int, $name: String) {
+            manga: Page(page: $page) {
+                media(type: MANGA, search: $name) {
+                    id
+                    title {
+                        english 
+                        romaji 
+                    } 
+                    averageScore 
+                    status 
+                    genres
+                    coverImage {
+                        medium
+                    }
+                }
+            }
+        }';
+
+        $variables = [
+            "name" => $name,
+        ];
+
+
+        $response = Http::post('https://graphql.anilist.co', [
+            'query' => $query,
+            'variables' => $variables,
+        ]);
+
+        $mangas = $response->json();
+
+        return $mangas;
     }
 }
