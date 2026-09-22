@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Http;
 
 class AnimeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Gets the top 30 animes from the AniList API
-        $animes = $this->getMultipleAnimes();
+        $animes = $this->getAnimes($request);
 
         if ($animes["data"] != null) {
             // Converts each anime from an array to a Eloquent Anime model object
-            $animes = $this->convertAnimesDetails($animes["data"]["anime"]["media"]);
+            $animes = $this->convertAnimesDetails($animes["data"]["Page"]["media"]);
 
             return view("animes.index", ['animes' => $animes]);
         } else {
@@ -59,48 +59,6 @@ class AnimeController extends Controller
         $inLibrary = $anime->watchings()->where('user_id', Auth::user()->id)->first() != null;
 
         return view('animes.show', ['anime' => $anime, 'inLibrary' => $inLibrary]);
-    }
-
-    public function findAnime(Request $request)
-    {
-        $animes = $this->animeSearch($request->search);
-
-        if ($animes["data"] != null) {
-            // Converts each anime from an array to a Eloquent Anime model object
-            $animes = $this->convertAnimesDetails($animes["data"]["anime"]["media"]);
-
-            return view("animes.index", ['animes' => $animes]);
-        } else {
-            return view('api-error');
-        }
-    }
-
-    // Gets the top 30 animes for the index page
-    public function getMultipleAnimes()
-    {
-        $query = 'query ($page: Int) {
-            anime: Page(page: $page, perPage: 30) {
-                media(type: ANIME, sort: SCORE_DESC) {
-                    id
-                    title {
-                        english 
-                        romaji 
-                    } 
-                    averageScore 
-                    status 
-                    genres
-                    coverImage {
-                        medium
-                    }
-                }
-            }
-        }';
- 
-        $respone = Http::post('https://graphql.anilist.co', [
-            'query' => $query,
-        ]);
-
-        return $respone->json();
     }
 
     // Gets all the details on an individual anime based on passed id
@@ -222,11 +180,13 @@ class AnimeController extends Controller
         return $anime;
     }
 
-    public function animeSearch(String $name)
+    public function getAnimes(Request $request)
     {
+        $page = $request->page == null ? 1 : $request->page;
+
         $query = 'query ($page: Int, $name: String) {
-            anime: Page(page: $page) {
-                media(type: ANIME, search: $name) {
+            Page (page: $page, perPage: 30) {
+                media(type: ANIME, sort: SCORE_DESC, search: $name) {
                     id
                     title {
                         english 
@@ -243,17 +203,17 @@ class AnimeController extends Controller
         }';
 
         $variables = [
-            "name" => $name,
+            'page' => $page,
+            'name' => $request->search,
+            'season' => $request->season,
+            'seasonYear' => $request->seasonYear,
         ];
-
 
         $response = Http::post('https://graphql.anilist.co', [
             'query' => $query,
             'variables' => $variables,
         ]);
 
-        $animes = $response->json();
-
-        return $animes;
+        return $response->json();
     }
 }
