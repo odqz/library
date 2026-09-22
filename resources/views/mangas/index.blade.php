@@ -1,7 +1,7 @@
 <x-layout.layout>
   @php $x = 1; @endphp
   <div class="flex flex-col gap-2 w-full "> 
-    <form action="/find/manga" method="get" class="flex gap-2 w-[30%]">
+    <form action="/mangas" method="get" class="flex gap-2 w-[30%]">
       <input type="search" name="search" id="search" class="w-full border px-1 outline-none" placeholder="Find a manga...">
       <label for="search" hidden>Search</label>
       <button type="submit" class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2">search</button>
@@ -63,5 +63,9 @@
       </div>
       @php $x += 1; @endphp
     @endforeach
+  </div>
+  <div class="flex">
+    <button class="justify-self-center">next</button>
+    <button class="justify-self-center">prev</button>
   </div>
 </x-layout.layout>
