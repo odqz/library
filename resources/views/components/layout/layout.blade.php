@@ -8,7 +8,7 @@
 </head>
 <body class="flex flex-col items-center">
     <x-layout.navbar></x-layout.navbar>
-    <div class="content flex bg-(--background-white) w-[80%] p-2">
+    <div class="flex-col bg-(--background-white) w-[80%] p-2">
         {{ $slot }}
     </div>
     <x-layout.footer></x-layout.footer>
