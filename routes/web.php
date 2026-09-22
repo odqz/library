@@ -44,6 +44,3 @@ Route::get('/animes/{anime}', [AnimeController::class, 'show']);
 
 Route::get('/mangas', [MangaController::class, 'index']);
 Route::get('/mangas/{manga}', [MangaController::class, 'show']);
-
-Route::get('/find/anime', [AnimeController::class, 'findAnime']);
-Route::get('/find/manga', [MangaController::class, 'findManga']);
