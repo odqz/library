@@ -11,15 +11,13 @@ use Illuminate\Support\Facades\Http;
 
 class MangaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Gets the top 30 mangas from the AniList API
-        $mangas = $this->getMultipleMangas();
+        $mangas = $this->getMangas($request);
 
         if ($mangas["data"] != null) {
             // Converts each manga from an array to a Eloquent Manga model object
-            $mangas = $this->convertMangasDetails($mangas["data"]["manga"]["media"]);
-
+            $mangas = $this->convertMangasDetails($mangas["data"]["Page"]["media"]);
             return view("mangas.index", ['mangas' => $mangas]);
         } else {
             return view('api-error');
@@ -59,48 +57,6 @@ class MangaController extends Controller
         $inLibrary = $manga->readings()->where('user_id', Auth::user()->id)->first() != null;
 
         return view('mangas.show', ['manga' => $manga, 'inLibrary' => $inLibrary]);
-    }
-
-    public function findManga(Request $request)
-    {
-        $mangas = $this->mangaSearch($request->search);
-
-        if ($mangas["data"] != null) {
-            // Converts each anime from an array to a Eloquent Anime model object
-            $mangas = $this->convertMangasDetails($mangas["data"]["manga"]["media"]);
-
-            return view("mangas.index", ['mangas' => $mangas]);
-        } else {
-            return view('api-error');
-        }
-    }
-
-    // Gets the top 30 mangas for the index page
-    public function getMultipleMangas()
-    {
-        $query = 'query ($page: Int) {
-            manga: Page(page: $page, perPage: 30) {
-                media(type: MANGA, sort: SCORE_DESC) {
-                    id
-                    title {
-                        english 
-                        romaji 
-                    } 
-                    averageScore 
-                    status 
-                    genres
-                    coverImage {
-                        medium
-                    }
-                }
-            }
-        }';
- 
-        $respone = Http::post('https://graphql.anilist.co', [
-            'query' => $query,
-        ]);
-
-        return $respone->json();
     }
 
     // Gets all the details on an individual manga based on passed id
@@ -224,11 +180,13 @@ class MangaController extends Controller
         return $manga;
     }
 
-    public function mangaSearch(String $name)
+    public function getMangas(Request $request)
     {
+        $page = $request->page == null ? 1 : $request->page;
+
         $query = 'query ($page: Int, $name: String) {
-            manga: Page(page: $page) {
-                media(type: MANGA, search: $name) {
+            Page (page: $page, perPage: 30) {
+                media(type: MANGA, sort: SCORE_DESC, search: $name) {
                     id
                     title {
                         english 
@@ -245,17 +203,15 @@ class MangaController extends Controller
         }';
 
         $variables = [
-            "name" => $name,
+            'page' => $page,
+            'name' => $request->search,
         ];
-
 
         $response = Http::post('https://graphql.anilist.co', [
             'query' => $query,
             'variables' => $variables,
         ]);
 
-        $mangas = $response->json();
-
-        return $mangas;
+        return $response->json();
     }
 }
