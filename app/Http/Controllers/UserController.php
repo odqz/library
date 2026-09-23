@@ -50,6 +50,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user = Auth::user();
+
         return view('users.show', ['readings' => $user->readings, 'watchings' => $user->watchings]);
     }
 
