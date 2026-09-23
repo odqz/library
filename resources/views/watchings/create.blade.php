@@ -5,10 +5,12 @@
     </div>
     <form action="/watchings/{{ $anime->id }}" method="post" class="flex flex-col items-start gap-1">
       @csrf
-      <h2 class="text-2xl text-(--logo-blue) font-bold w-75">{{ $anime->title_english }}</h2>
-      <div class="flex flex-col">
-        <x-form.field name="episodes" label="Episodes" type="number" min="0" placeholder="{{ $anime->episodes }}"></x-form.field>
-      </div>
+      <a href="/animes/{{ $anime->id }}" class="text-2xl text-(--logo-blue) font-bold w-75">{{ $anime->title_english }}</a>
+      @if($anime->episodes > 1)
+        <div class="flex flex-col">
+          <x-form.field name="episodes" label="Episodes" type="number" min="0" placeholder="{{ $anime->episodes }}"></x-form.field>
+        </div>
+      @endif
       <div class="flex flex-col">
         <label for="status">Status:</label>
         <select name="status" id="status" class="text-[#4d4d4d] outline-none px-1 border">
@@ -24,7 +26,7 @@
       </div>
       <div class="flex flex-col">
         <label for="notes">Notes:</label>
-        <textarea name="notes" id="notes" cols="24" rows="3" class="text-[#4d4d4d] outline-none px-1 border" placeholder="I really enjoyed..."></textarea>
+        <textarea name="notes" id="notes" cols="24" rows="3" class="text-[#4d4d4d] outline-none px-1 border" placeholder="I think that..."></textarea>
       </div>
       <button class="bg-(--good-green) mt-1 py-0.5 px-4 text-(--text-bright-white) hover:brightness-[94%]" type="submit">Add</button>
     </form>
