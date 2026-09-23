@@ -18,7 +18,8 @@ class MangaController extends Controller
         if ($mangas["data"] != null) {
             // Converts each manga from an array to a Eloquent Manga model object
             $mangas = $this->convertMangasDetails($mangas["data"]["Page"]["media"]);
-            return view("mangas.index", ['mangas' => $mangas]);
+            $page = $request->page == null ? 1 : $request->page;
+            return view("mangas.index", ['mangas' => $mangas, 'page_number' => $page]);
         } else {
             return view('api-error');
         }
@@ -186,7 +187,7 @@ class MangaController extends Controller
 
         $query = 'query ($page: Int, $name: String) {
             Page (page: $page, perPage: 30) {
-                media(type: MANGA, sort: SCORE_DESC, search: $name) {
+                media(type: MANGA, sort: SCORE_DESC, search: $name, isAdult: false) {
                     id
                     title {
                         english 

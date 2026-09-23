@@ -13,14 +13,13 @@ class AnimeController extends Controller
 {
     public function index(Request $request)
     {
-        // Gets the top 30 animes from the AniList API
         $animes = $this->getAnimes($request);
 
         if ($animes["data"] != null) {
             // Converts each anime from an array to a Eloquent Anime model object
             $animes = $this->convertAnimesDetails($animes["data"]["Page"]["media"]);
-
-            return view("animes.index", ['animes' => $animes]);
+            $page = $request->page == null ? 1 : $request->page;
+            return view("animes.index", ['animes' => $animes, 'page_number' => $page]);
         } else {
             return view('api-error');
         }
@@ -186,7 +185,7 @@ class AnimeController extends Controller
 
         $query = 'query ($page: Int, $name: String) {
             Page (page: $page, perPage: 30) {
-                media(type: ANIME, sort: SCORE_DESC, search: $name) {
+                media(type: ANIME, sort: SCORE_DESC, search: $name, isAdult: false) {
                     id
                     title {
                         english 
