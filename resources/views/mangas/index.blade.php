@@ -1,7 +1,7 @@
 <x-layout.layout>
-  @php $x = 1; @endphp
+  @php $x = ($page_number * 30) - 29; @endphp
   <div class="flex flex-col gap-2 w-full "> 
-    <form action="/mangas" method="get" class="flex gap-2 w-[30%]">
+    <form action="/mangas/index/{{ $page_number }}" method="get" class="flex gap-2 w-[30%]">
       <input type="search" name="search" id="search" class="w-full border px-1 outline-none" placeholder="Find a manga...">
       <label for="search" hidden>Search</label>
       <button type="submit" class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2">search</button>
@@ -64,8 +64,18 @@
       @php $x += 1; @endphp
     @endforeach
   </div>
-  <div class="flex">
-    <button class="justify-self-center">next</button>
-    <button class="justify-self-center">prev</button>
+  <div class="flex justify-center gap-2">
+    @if($page_number > 1)
+      <form action="/mangas/all/{{ $page_number-1 }}" method="get">
+        @csrf
+        <input type="number" name="page" value="{{ $page_number-1 }}" hidden>
+        <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2">< prev</button>
+      </form>
+    @endif
+    <form action="/mangas/all/{{ $page_number+1 }}" method="get">
+      @csrf
+      <input type="number" name="page" value="{{ $page_number+1 }}" hidden>
+      <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2">next ></button>
+    </form>
   </div>
 </x-layout.layout>
