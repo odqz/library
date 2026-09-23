@@ -10,9 +10,9 @@
     </a>
     </a>
     <div class="flex">
-      <a href="/animes/">anime</a>
+      <a href="/animes/index/1">anime</a>
       <p>|</p>
-      <a href="/mangas/">manga</a>
+      <a href="/mangas/index/1">manga</a>
     </div>
   </div>
   <div class="flex item-center">

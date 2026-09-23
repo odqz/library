@@ -5,7 +5,7 @@
     </div>
     <form action="/readings/{{ $manga->id }}" method="post" class="form flex flex-col items-start gap-1">
       @csrf
-      <h2 class="text-3xl text-(--logo-blue) font-bold w-75">{{ $manga->title_english }}</h2>
+      <a href="/mangas/{{ $manga->id }}" class="text-3xl text-(--logo-blue) font-bold w-75">{{ $manga->title_english }}</a>
       <div class="flex flex-col">
         <x-form.field name="volumes" label="Volumes" type="number" min="0" placeholder="{{ $manga->volumes }}"></x-form.field>
       </div>

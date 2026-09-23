@@ -10,8 +10,8 @@
       <span class="text-[#4a4a4a]">created: </span>
       <span class="text-(--logo-blue) font-bold">{{ $user->created_at->format('d/m/y') }}</span>
     </div>
-    <form action="/users/{{ $user->id }}" method="post" class="flex flex-col items-start gap-1 p-2 border">
-      <button id="change-password-btn" class="cursor-pointer w-[100%]" type="button">Change password</button>
+    <form action="/users/{{ $user->id }}" method="post" class="flex flex-col items-start gap-1 p-2 border w-min">
+      <button id="change-password-btn" class="cursor-pointer w-[100%] flex-wrap-0" type="button">Change password</button>
       @csrf
       @method('PATCH')
       <div class="item hidden flex flex-col">
