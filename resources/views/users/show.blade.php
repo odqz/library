@@ -1,17 +1,23 @@
 <x-layout.layout>
-  <div class="flex flex-col gap-8">
+<div class="flex justify-between">
+    <div class="flex flex-col gap-8">
     <div>
-      <h2 class="text-2xl text-(--logo-blue) font-bold">Animes</h2>
-        <div class="flex flex-col gap-4">
-          @php $x = 0; @endphp
-          @foreach($watchings as $watching)
-            @php 
-              $anime = $watching->anime;
-              $x += 1;
-            @endphp
-            <div class="flex gap-2">
-              <div>
-              <p>#{{ $x }}</p>
+      <div class="flex flex-col">
+        <div class="flex items-end">
+          <h2 class="text-2xl text-(--logo-blue) font-bold">Animes</h2>
+          <!-- <button type="submit" class="text-(--logo-blue) py-0.5 px-2 underline cursor-pointer">hide</button> -->
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        @php $anime_count = 0; @endphp
+        @foreach($watchings as $watching)
+          @php 
+            $anime = $watching->anime;
+            $anime_count += 1;
+          @endphp
+          <div class="flex gap-2">
+            <div>
+              <p>#{{ $anime_count = $anime_count < 10 ? "0$anime_count" : "$anime_count" }}</p>
             </div>
             <div class="flex gap-2">
               <div class="flex">
@@ -28,7 +34,7 @@
                 <p class="text-[#505050]">Score: {{ $watching->score }}/100</p>
                 <p class="text-[#505050]">Status: {{ $watching->status }}</p>
                 <div class="flex gap-2">
-                  <a href="/watchings/{{ $watching->id }}/edit" class="text-(--text-white) bg-(--good-green) px-2 mt-1 cursor-pointer">Edit</a>
+                  <a href="/watchings/{{ $watching->id }}/edit" class="text-(--text-white) bg-(--logo-blue) px-2 mt-1 cursor-pointer">View</a>
                   <form action="/watchings/{{ $watching->id }}" method="post">
                     @csrf
                     @method('DELETE')
@@ -42,17 +48,22 @@
       </div>
     </div>
     <div class="flex flex-col gap-2">
-      <h2 class="text-2xl text-(--logo-blue) font-bold">Mangas</h2>
+      <div class="flex flex-col">
+        <div class="flex items-end">
+          <h2 class="text-2xl text-(--logo-blue) font-bold">Mangas</h2>
+          <!-- <button type="submit" class="text-(--logo-blue) py-0.5 px-2 underline cursor-pointer">hide</button> -->
+        </div>
+      </div>
       <div class="flex flex-col gap-4">
-        @php $x = 0; @endphp
+        @php $manga_count = 0; @endphp
         @foreach($readings as $reading)
           @php 
             $manga = $reading->manga;
-            $x += 1;
+            $manga_count += 1;
           @endphp
           <div class="flex gap-2">
             <div>
-            <p>#{{ $x }}</p>
+            <p>#{{ $manga_count = $manga_count < 10 ? "0$manga_count" : "$manga_count" }}</p>
           </div>
           <div class="flex gap-2">
             <div class="flex">
@@ -69,7 +80,7 @@
               <p class="text-[#505050]">Score: {{ $reading->score }}/100</p>
               <p class="text-[#505050]">Status: {{ $reading->status }}</p>
               <div class="flex gap-2">
-                <a href="/readings/{{ $reading->id }}/edit" class="text-(--text-white) bg-(--good-green) px-2 mt-1 cursor-pointer">Edit</a>
+                <a href="/readings/{{ $reading->id }}/edit" class="text-(--text-white) bg-(--logo-blue) px-2 mt-1 cursor-pointer">View</a>
                 <form action="/readings/{{ $reading->id }}" method="post">
                   @csrf
                   @method('DELETE')
@@ -83,4 +94,64 @@
       </div>
     </div>
   </div>
+
+  <div class="flex flex-col w-[20%] p-1 pb-2 border h-min ">
+    <h2 class="text-2xl text-(--logo-blue) font-bold">Filters</h2>
+    <div class="flex flex-col gap-4 px-1">
+      <div>
+        <h3 class="text-m font-bold"">Animes ({{ $anime_count }})</h3>
+        <form action="" class="px-1">
+          <div>
+            <label for="">Planned</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Reading</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Completed</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Paused</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Dropped</label>
+            <input type="checkbox" name="" id="">
+          </div>
+        </form>
+        <button type="submit" class="text-(--logo-blue) underline cursor-pointer">Hide all</button>
+      </div>
+
+      <div>
+        <h3 class="text-m font-bold"">Mangas ({{ $manga_count }})</h3>
+        <form action="" class="px-1">
+          <div>
+            <label for="">Planned</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Reading</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Completed</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Paused</label>
+            <input type="checkbox" name="" id="">
+          </div>
+          <div>
+            <label for="">Dropped</label>
+            <input type="checkbox" name="" id="">
+          </div>
+        </form>
+        <button type="submit" class="text-(--logo-blue) underline cursor-pointer">Hide all</button>
+      </div>
+    </div>
+  </div>
+</div>
 </x-layout.layout>
