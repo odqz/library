@@ -39,8 +39,8 @@ Route::middleware('guest')->group(function () {
 
 });
 
-Route::get('/animes', [AnimeController::class, 'index']);
+Route::get('/animes/index/{page}', [AnimeController::class, 'index']);
 Route::get('/animes/{anime}', [AnimeController::class, 'show']);
 
-Route::get('/mangas', [MangaController::class, 'index']);
+Route::get('/mangas/index/{page}', [MangaController::class, 'index']);
 Route::get('/mangas/{manga}', [MangaController::class, 'show']);
