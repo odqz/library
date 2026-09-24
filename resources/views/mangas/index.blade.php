@@ -66,13 +66,13 @@
   </div>
   <div class="flex justify-center gap-2">
     @if($page_number > 1)
-      <form action="/mangas/all/{{ $page_number-1 }}" method="get">
+      <form action="/mangas/index/{{ $page_number-1 }}" method="get">
         @csrf
         <input type="number" name="page" value="{{ $page_number-1 }}" hidden>
         <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2">< prev</button>
       </form>
     @endif
-    <form action="/mangas/all/{{ $page_number+1 }}" method="get">
+    <form action="/mangas/index/{{ $page_number+1 }}" method="get">
       @csrf
       <input type="number" name="page" value="{{ $page_number+1 }}" hidden>
       <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2">next ></button>
