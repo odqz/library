@@ -5,7 +5,6 @@
       <div class="flex flex-col">
         <div class="flex items-end">
           <h2 class="text-2xl text-(--logo-blue) font-bold">Animes</h2>
-          <!-- <button type="submit" class="text-(--logo-blue) py-0.5 px-2 underline cursor-pointer">hide</button> -->
         </div>
       </div>
       <div class="flex flex-col gap-4">
