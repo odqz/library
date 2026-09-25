@@ -19,7 +19,7 @@ class MangaController extends Controller
             // Converts each manga from an array to a Eloquent Manga model object
             $mangas = $this->convertMangasDetails($mangas["data"]["Page"]["media"]);
             $page = $request->page == null ? 1 : $request->page;
-            return view("mangas.index", ['mangas' => $mangas, 'page_number' => $page]);
+            return view("media.index", ['medias' => $mangas, 'page_number' => $page, 'type' => 'manga']);
         } else {
             return view('api-error');
         }
@@ -57,7 +57,7 @@ class MangaController extends Controller
         // Checks to see if the currently authenticated user has this manga in their library
         $inLibrary = $manga->readings()->where('user_id', Auth::user()->id)->first() != null;
 
-        return view('components.media.show', ['media' => $manga, 'inLibrary' => $inLibrary, 'type' => 'manga']);
+        return view('media.show', ['media' => $manga, 'inLibrary' => $inLibrary, 'type' => 'manga']);
     }
 
     // Gets all the details on an individual manga based on passed id

@@ -19,7 +19,7 @@ class AnimeController extends Controller
             // Converts each anime from an array to a Eloquent Anime model object
             $animes = $this->convertAnimesDetails($animes["data"]["Page"]["media"]);
             $page = $request->page == null ? 1 : $request->page;
-            return view("animes.index", ['animes' => $animes, 'page_number' => $page]);
+            return view("media.index", ['medias' => $animes, 'page_number' => $page, 'type' => 'manga']);
         } else {
             return view('api-error');
         }
@@ -57,7 +57,7 @@ class AnimeController extends Controller
         // Checks to see if the currently authenticated user has this anime in their library
         $inLibrary = $anime->watchings()->where('user_id', Auth::user()->id)->first() != null;
 
-        return view('components.media.show', ['media' => $anime, 'inLibrary' => $inLibrary, 'type' => 'anime']);
+        return view('media.show', ['media' => $anime, 'inLibrary' => $inLibrary, 'type' => 'anime']);
     }
 
     // Gets all the details on an individual anime based on passed id
