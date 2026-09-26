@@ -14,7 +14,7 @@ class ReadingController extends Controller
      */
     public function create(Int $id)
     {
-        return view('readings.create', ['manga' => Manga::find($id)]);
+        return view('consumption.create', ['media' => Manga::find($id), 'type' => 'manga']);
     }
 
     /**
@@ -42,7 +42,7 @@ class ReadingController extends Controller
      */
     public function edit(Reading $reading)
     {
-        return view('readings.edit', ['reading' => $reading, 'manga' => $reading->manga]);
+        return view('consumption.edit', ['consumption' => $reading, 'media' => $reading->manga, 'type' => 'reading']);
     }
 
     /**

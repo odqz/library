@@ -14,7 +14,7 @@ class WatchingController extends Controller
      */
     public function create(Int $id)
     {
-        return view('watchings.create', ['anime' => Anime::find($id)]);
+        return view('consumption.create', ['media' => Anime::find($id), 'type' => 'anime']);
     }
 
     /**
@@ -40,7 +40,7 @@ class WatchingController extends Controller
      */
     public function edit(Watching $watching)
     {
-        return view('watchings.edit', ['watching' => $watching, 'anime' => $watching->anime]);
+        return view('consumption.edit', ['consumption' => $watching, 'media' => $watching->anime, 'type' => 'watching']);
     }
 
     /**
