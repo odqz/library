@@ -39,7 +39,7 @@
     <div class="flex flex-col gap-4">
       <div>
         <h3 class="text-xl font-bold">Plot</h3>
-        <p class="text-m">{{ $media->description }}</p>
+        <p class="text-m">{!! $media->description !!}</p>
       </div>
       <div>
         <h3 class="text-xl font-bold">Staff</h3>
