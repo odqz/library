@@ -25,11 +25,11 @@
       <div class="flex flex-col">
         <label for="status">Status:</label>
         <select name="status" id="status" class="text-[#4d4d4d] outline-none px-1 border">
-          <option value="Planned">Planned</option>
-          <option value="Watching">Watching</option>
-          <option value="Completed">Completed</option>
-          <option value="Paused">Paused</option>
-          <option value="Dropped">Dropped</option>
+          <option value="PLANNED">PLANNED</option>
+          <option value="WATCHING">WATCHING</option>
+          <option value="COMPLETED">COMPLETD</option>
+          <option value="PAUSED">PAUSED</option>
+          <option value="DROPPED">DROPPED</option>
         </select>
       </div>
       <div class="flex flex-col">
