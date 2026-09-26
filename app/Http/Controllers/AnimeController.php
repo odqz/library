@@ -19,7 +19,7 @@ class AnimeController extends Controller
             // Converts each anime from an array to a Eloquent Anime model object
             $animes = $this->convertAnimesDetails($animes["data"]["Page"]["media"]);
             $page = $request->page == null ? 1 : $request->page;
-            return view("media.index", ['medias' => $animes, 'page_number' => $page, 'type' => 'manga']);
+            return view("media.index", ['medias' => $animes, 'page_number' => $page, 'type' => 'anime']);
         } else {
             return view('api-error');
         }
