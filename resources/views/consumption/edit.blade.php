@@ -6,7 +6,7 @@
     <form action="/{{ $type }}s/{{ $consumption->id }}" method="post" class="flex flex-col items-start gap-1">
       @csrf
       @method('PATCH')
-      <h2 class="text-2xl text-(--logo-blue) font-bold w-75">{{ $media->title_english }}</h2>
+      <a href="/{{ $x = $type == 'watching' ? 'anime' : 'manga' }}s/{{ $media->id }}" class="text-2xl text-(--logo-blue) font-bold w-75">{{ $media->title_english }}</a>
       @if($type == 'reading')
         <div class="flex flex-col">
           <x-form.field name="volumes" label="Volumes" type="number" min="0" value="{{ $consumption->volumes_read }}"></x-form.field>
