@@ -1,11 +1,11 @@
-@vite(['resources/js/apply-filters.js'])
+@vite(['resources/js/apply-filters.js', 'resources/js/hide-consumption-index.js'])
 
 <x-layout.layout>
   <div class="flex justify-between">
     <div class="flex flex-col gap-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl text-(--logo-blue) font-bold">Animes</h2>
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4" id="anime-index">
           @php $anime_count = 0; @endphp
           @foreach($watchings as $watching)
             @php 
@@ -31,10 +31,11 @@
             </x-media.card>
           @endforeach
         </div>
+        <div class="hidden" id="hiding-animes">You are hiding your animes. To see them press the show button in the filter tab.</div>
       </div>
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl text-(--logo-blue) font-bold">Mangas</h2>
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4" id="manga-index">
           @php $manga_count = 0; @endphp
           @foreach($readings as $reading)
             @php 
@@ -60,6 +61,7 @@
             </x-media.card>
           @endforeach
         </div>
+        <div class="hidden" id="hiding-mangas">You are hiding your mangas. To see them press the show button in the filter tab.</div>
       </div>
     </div>
 
@@ -89,11 +91,11 @@
           <input type="checkbox" name="" id="">
         </div>
       </form>
-      <button class="text-(--logo-blue) underline cursor-pointer" type="button">Hide all</button>
+      <button class="text-(--logo-blue) underline cursor-pointer" type="button" id="hide-animes">Hide all</button>
     </div>
     <div class="flex flex-col items-start mb-2">
       <h3 class="text-m font-bold"">Mangas ({{ $manga_count }})</h3>
-      <form action="" class="px-2" id="manga-filter-form">
+      <form action="" class="hide px-2" id="manga-filter-form">
         <div>
           <label for="">Planned</label>
           <input type="checkbox" name="" id="">
@@ -115,7 +117,7 @@
           <input type="checkbox" name="" id="">
         </div>
       </form>
-      <button class="text-(--logo-blue) underline cursor-pointer" type="button">Hide all</button>
+      <button class="text-(--logo-blue) underline cursor-pointer" type="button" id="hide-mangas">Hide all</button>
     </div>
     <button class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2 cursor-pointer" type="button" id="apply-filter-btn">Apply filters</button>
   </div>
