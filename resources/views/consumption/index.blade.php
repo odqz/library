@@ -1,5 +1,4 @@
-@vite(['resources/js/apply-filters.js', 'resources/js/hide-consumption-index.js'])
-
+@vite(['resources/js/hide-consumption-index.js'])
 <x-layout.layout>
   <div class="flex justify-between">
     <div class="flex flex-col gap-8">
@@ -65,61 +64,65 @@
       </div>
     </div>
 
-  <div class="flex flex-col items-start w-[20%] p-1 pb-2 border h-min">
+  <div class="flex flex-col items-start w-[20%] p-1 border h-min">
     <h2 class="text-2xl text-(--logo-blue) font-bold">Filters</h2>
-    <div class="flex flex-col items-start mb-1">
-      <h3 class="text-m font-bold"">Animes ({{ $anime_count }})</h3>
-      <form action="" class="px-2" id="anime-filter-form">
-        <div>
-          <label for="">Planned</label>
-          <input type="checkbox" name="" id="">
-        </div>
-        <div>
-          <label for="">Reading</label>
-          <input type="checkbox" name="" id="">
-        </div>
-        <div>
-          <label for="">Completed</label>
-          <input type="checkbox" name="" id="">
-        </div>
-        <div>
-          <label for="">Paused</label>
-          <input type="checkbox" name="" id="">
-        </div>
-        <div>
-          <label for="">Dropped</label>
-          <input type="checkbox" name="" id="">
-        </div>
-      </form>
-      <button class="text-(--logo-blue) underline cursor-pointer" type="button" id="hide-animes">Hide all</button>
-    </div>
+
     <div class="flex flex-col items-start mb-2">
-      <h3 class="text-m font-bold"">Mangas ({{ $manga_count }})</h3>
-      <form action="" class="hide px-2" id="manga-filter-form">
+      <h3 class="text-m font-bold"">Animes ({{ $anime_count }})</h3>
+      <form action="/users/{{ $user->id }}/filter/anime" class="px-2" id="anime-filter-form">
         <div>
           <label for="">Planned</label>
-          <input type="checkbox" name="" id="">
+          <input type="checkbox" name="planned_watching" id="">
         </div>
         <div>
-          <label for="">Reading</label>
-          <input type="checkbox" name="" id="">
+          <label for="">watching</label>
+          <input type="checkbox" name="watching" id="">
         </div>
         <div>
           <label for="">Completed</label>
-          <input type="checkbox" name="" id="">
+          <input type="checkbox" name="completed_watching" id="">
         </div>
         <div>
           <label for="">Paused</label>
-          <input type="checkbox" name="" id="">
+          <input type="checkbox" name="paused_watching" id="">
         </div>
         <div>
           <label for="">Dropped</label>
-          <input type="checkbox" name="" id="">
+          <input type="checkbox" name="dropped_watching" id="">
         </div>
       </form>
-      <button class="text-(--logo-blue) underline cursor-pointer" type="button" id="hide-mangas">Hide all</button>
+      <button class="text-(--logo-blue) underline cursor-pointer mb-1" type="button" id="hide-animes">Hide all</button>
+      <button class="bg-(--logo-blue) text-(--text-white) py-0.25 px-1.5 cursor-pointer" type="submit" form="anime-filter-form">Apply filters</button>
     </div>
-    <button class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2 cursor-pointer" type="button" id="apply-filter-btn">Apply filters</button>
+
+    <div class="flex flex-col items-start mb-1">
+      <h3 class="text-m font-bold"">Mangas ({{ $manga_count }})</h3>
+      <form action="/users/{{ $user->id }}/filter/manga" class="hide px-2" id="manga-filter-form">
+        <div>
+          <label for="">Planned</label>
+          <input type="checkbox" name="planned_reading" id="">
+        </div>
+        <div>
+          <label for="">Reading</label>
+          <input type="checkbox" name="reading" id="">
+        </div>
+        <div>
+          <label for="">Completed</label>
+          <input type="checkbox" name="completed_reading" id="">
+        </div>
+        <div>
+          <label for="">Paused</label>
+          <input type="checkbox" name="paused_reading" id="">
+        </div>
+        <div>
+          <label for="">Dropped</label>
+          <input type="checkbox" name="dropped_reading" id="">
+        </div>
+      </form>
+      <button class="text-(--logo-blue) underline cursor-pointer mb-1" type="button" id="hide-animes">Hide all</button>
+      <button class="bg-(--logo-blue) text-(--text-white) py-0.25 px-1.5 cursor-pointer" type="submit" form="manga-filter-form">Apply filters</button>
+    </div>
+
   </div>
 </div>
 </x-layout.layout>
