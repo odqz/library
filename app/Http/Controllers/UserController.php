@@ -48,11 +48,24 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user, Request $request)
     {
         $user = Auth::user();
 
-        return view('users.show', ['readings' => $user->readings, 'watchings' => $user->watchings]);
+        $readings = array();
+
+        if ($request->completed_reading != null) {
+            $completedReadings = $user->readings()->where('status', 'COMPLETED')->get()->toArray();
+            foreach ($completedReadings as $completedReading) array_push($readings, $completedReading);
+            dd($readings);
+        }
+
+        return view('consumption.index', ['readings' => $readings, 'watchings' => $user->watchings, 'user' => $user]);
+    }
+
+    public function getRequest(Request $request)
+    {
+        dd($request->all());
     }
 
     /**
