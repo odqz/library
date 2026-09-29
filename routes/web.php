@@ -7,6 +7,7 @@ use App\Http\Controllers\ReadingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WatchingController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -15,9 +16,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::get('/users/{user}/edit', [UserController::class, 'edit']);
 
+    Route::get('users/{user}/filter/anime', [UserController::class, 'show']);
+    Route::get('users/{user}/filter/manga', [UserController::class, 'show']);
+
     Route::get('/readings/new/{manga}', [ReadingController::class, 'create']);
     Route::post('/readings/{manga}', [ReadingController::class, 'store']);
-    Route::get('/readings/{manga}', [ReadingController::class, 'show']);
     Route::get('/readings/{reading}/edit', [ReadingController::class, 'edit']);
     Route::patch('/readings/{reading}', [ReadingController::class, 'update']);
     Route::delete('/readings/{reading}', [ReadingController::class, 'destroy']);
