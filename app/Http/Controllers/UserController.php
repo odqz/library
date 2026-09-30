@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reading;
 use App\Models\User;
+use App\Models\Watching;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -52,20 +54,56 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $readings = array();
-
-        if ($request->completed_reading != null) {
-            $completedReadings = $user->readings()->where('status', 'COMPLETED')->get()->toArray();
-            foreach ($completedReadings as $completedReading) array_push($readings, $completedReading);
-            dd($readings);
+        if (count($request->all()) == 0 || count($request->all()) == 6) {
+            $readings = $user->readings;
+            $watchings = $user->watchings;
+        } else {
+            $readings = $this->filterReadings($user, $request);
+            $watchings = $this->filterWatchings($user, $request);
         }
 
-        return view('consumption.index', ['readings' => $readings, 'watchings' => $user->watchings, 'user' => $user]);
+        $checkedBoxes = $request->all();
+
+        return view('consumption.index', ['readings' => $readings, 'watchings' => $watchings, 'user' => $user, 'checkedBoxes' => $checkedBoxes]);
     }
 
-    public function getRequest(Request $request)
+    public function filterReadings(User $user, Request $request)
     {
-        dd($request->all());
+
+        $readings = [];
+
+        $readingsArray = $user->readings()
+            ->where('status', $request->planned)
+            ->orWhere('status', $request->reading)
+            ->orWhere('status', $request->completed)
+            ->orWhere('status', $request->paused)
+            ->orWhere('status', $request->dropped)
+            ->get()->toArray();
+
+        foreach ($readingsArray as $reading) {
+            array_push($readings, new Reading($reading));
+        }
+
+        return $readings;
+    }
+
+    public function filterWatchings(User $user, Request $request)
+    {
+        $watchings = [];
+        
+        $watchingsArray = $user->watchings()
+            ->where('status', $request->planned)
+            ->orWhere('status', $request->watching)
+            ->orWhere('status', $request->completed)
+            ->orWhere('status', $request->paused)
+            ->orWhere('status', $request->dropped)
+            ->get()->toArray();
+
+        foreach ($watchingsArray as $watching) {
+            array_push($watchings, new Watching($watching));
+        }
+
+        return $watchings;
     }
 
     /**
