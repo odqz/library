@@ -16,8 +16,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::get('/users/{user}/edit', [UserController::class, 'edit']);
 
-    Route::get('users/{user}/filter/anime', [UserController::class, 'show']);
-    Route::get('users/{user}/filter/manga', [UserController::class, 'show']);
+    Route::get('/users/{user}/filter', [UserController::class, 'show']);
 
     Route::get('/readings/new/{manga}', [ReadingController::class, 'create']);
     Route::post('/readings/{manga}', [ReadingController::class, 'store']);
