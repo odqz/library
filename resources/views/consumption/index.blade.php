@@ -1,5 +1,5 @@
 @vite(['resources/js/hide-consumption-index.js'])
-<x-layout.layout>
+<x-layout.layout title="My library">
   <div class="flex justify-between">
     <div class="flex flex-col gap-8">
       <div class="flex flex-col gap-2">

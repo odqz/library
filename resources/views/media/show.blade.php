@@ -1,6 +1,6 @@
 @vite(['resources/js/change-list-display.js'])
 
-<x-layout.layout>
+<x-layout.layout title="{{ $media->title_english != null ? $media->title_english : $media->title_romaji }}">
   <div class="flex gap-6">
     <div class="shrink-0">
       <img src="{{ $media->cover_image_path }}" alt="" class="w-75 h-105">

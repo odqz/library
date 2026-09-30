@@ -1,4 +1,4 @@
-<x-layout.layout>
+<x-layout.layout title="library/{{ $type }}">
   <div class="flex gap-2">
     <div class="shrink-0">
       <img src="{{ $media->cover_image_path }}" alt="" class="w-75 h-105">

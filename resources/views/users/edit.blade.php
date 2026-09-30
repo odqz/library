@@ -1,6 +1,6 @@
 @vite(['resources/js/change-password.js'])
 
-<x-layout.layout>
+<x-layout.layout title="{{ $user->username }}">
   <div class="flex flex-col gap-1">
     <div>
       <span class="text-[#4a4a4a]">username: </span>

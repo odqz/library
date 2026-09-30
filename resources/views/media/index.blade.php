@@ -1,4 +1,4 @@
-<x-layout.layout>
+<x-layout.layout title="{{ ucfirst($type) }}s">
   @php $x = ($page_number * 30) - 29; @endphp
   <div class="flex flex-col gap-2 w-full "> 
     <form action="/{{ $type }}s/index/{{ $page_number }}" method="get" class="flex gap-2 w-[30%]">
