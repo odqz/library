@@ -55,7 +55,7 @@ class AnimeController extends Controller
         }
 
         // Checks to see if the currently authenticated user has this anime in their library
-        $inLibrary = $anime->watchings()->where('user_id', Auth::user()->id)->first() != null;
+        $inLibrary = Auth::check() && $anime->watchings()->where('user_id', Auth::user()->id)->first() != null ? true : false;
 
         return view('media.show', ['media' => $anime, 'inLibrary' => $inLibrary, 'type' => 'anime']);
     }

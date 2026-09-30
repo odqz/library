@@ -55,8 +55,8 @@ class MangaController extends Controller
         }
 
         // Checks to see if the currently authenticated user has this manga in their library
-        $inLibrary = $manga->readings()->where('user_id', Auth::user()->id)->first() != null;
-
+        $inLibrary = Auth::check() && $manga->readings()->where('user_id', Auth::user()->id)->first() != null ? true : false;
+        
         return view('media.show', ['media' => $manga, 'inLibrary' => $inLibrary, 'type' => 'manga']);
     }
 
