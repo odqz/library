@@ -79,6 +79,16 @@ class MangaController extends Controller
                 isAdult
                 description
                 countryOfOrigin
+                startDate {
+                    day
+                    month
+                    year
+                }
+                endDate {
+                    day
+                    month
+                    year
+                }
                 characters {
                     edges {
                         role
@@ -115,12 +125,12 @@ class MangaController extends Controller
             "id" => $id, 
         ];
 
-        $respone = Http::post('https://graphql.anilist.co', [
+        $response = Http::post('https://graphql.anilist.co', [
             'query' => $query,
             'variables' => $variables,
         ]);
 
-        return $respone->json();
+        return $response->json();
     }
 
     // Converts the manga array returrned by the API to a Eloquent Manga model object
@@ -159,6 +169,8 @@ class MangaController extends Controller
             'is_adult' => $mangaArray["description"],
             'description' => $mangaArray["description"],
             'country_of_origin' => $mangaArray["countryOfOrigin"],
+            'start_date' => "{$mangaArray["startDate"]["year"]}-{$mangaArray["startDate"]["month"]}-{$mangaArray["startDate"]["day"]}",
+            'end_date' => "{$mangaArray["endDate"]["year"]}-{$mangaArray["endDate"]["month"]}-{$mangaArray["endDate"]["day"]}",
             'cover_image_path' => $mangaArray["coverImage"]["extraLarge"],
         ]);
 
