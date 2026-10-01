@@ -1,5 +1,10 @@
 @vite(['resources/js/change-list-display.js'])
 
+@php
+  $start_date = explode("-", $media->start_date);
+  $end_date = explode("-", $media->end_date);
+@endphp
+
 <x-layout.layout title="{{ $media->title_english != null ? $media->title_english : $media->title_romaji }}">
   <div class="flex gap-6">
     <div class="shrink-0">
@@ -17,6 +22,8 @@
         <p><span class="font-bold">Favourites:</span> {{ $media->favourites }}</p>
         <p><span class="font-bold">Country:</span> {{ $media->country_of_origin }}</p>
         <p><span class="font-bold">Adult:</span> @if($media->is_adult == NULL) False @else True @endif</p>
+        <p><span class="font-bold">Start date:</span> {{ "{$start_date[2]}/{$start_date[1]}/{$start_date[0]}" }}</p>
+        <p><span class="font-bold">End date:</span> {{ "{$end_date[2]}/{$end_date[1]}/{$end_date[0]}" }}</p>
         <div>
           <p><span class="font-bold">Genres:</span></p>
           @foreach($media->genres as $genre)
@@ -58,7 +65,7 @@
         <h3 class="text-xl font-bold">Characters</h3>
         <button class="chars-btn underline text-(--logo-blue) cursor-pointer text-sm">hide</button>
         <div class="flex flex-wrap gap-12">
-          @foreach($media->characters as $character)
+          @foreach($media->characters()->orderByRaw("CASE role WHEN 'MAIN' THEN 1 WHEN 'SUPPORTING' THEN 2 WHEN 'BACKGROUND' THEN 3 END")->get() as $character)
             <div class="w-25 char">
               <img src="{{ $character->image_path }}" alt="{{ $character->name }} cover image">
               <p class="text-sm font-bold">{{ $character->name }}</p>
