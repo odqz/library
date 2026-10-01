@@ -78,6 +78,16 @@ class AnimeController extends Controller
                 isAdult
                 description
                 countryOfOrigin
+                startDate {
+                    day
+                    month
+                    year
+                }
+                endDate {
+                    day
+                    month
+                    year
+                }
                 characters {
                     edges {
                         role
@@ -114,12 +124,12 @@ class AnimeController extends Controller
             "id" => $id,
         ];
 
-        $respone = Http::post('https://graphql.anilist.co', [
+        $response = Http::post('https://graphql.anilist.co', [
             'query' => $query,
             'variables' => $variables,
         ]);
 
-        return $respone->json();
+        return $response->json();
     }
 
     // Converts the anime array returrned by the API to a Eloquent Manga model object
@@ -157,6 +167,8 @@ class AnimeController extends Controller
             'is_adult' => $animeArray["description"],
             'description' => $animeArray["description"],
             'country_of_origin' => $animeArray["countryOfOrigin"],
+            'start_date' => "{$animeArray["startDate"]["year"]}-{$animeArray["startDate"]["month"]}-{$animeArray["startDate"]["day"]}",
+            'end_date' => "{$animeArray["endDate"]["year"]}-{$animeArray["endDate"]["month"]}-{$animeArray["endDate"]["day"]}",
             'cover_image_path' => $animeArray["coverImage"]["extraLarge"],
         ]);
 

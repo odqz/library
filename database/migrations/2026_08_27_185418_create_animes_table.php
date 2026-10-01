@@ -23,6 +23,8 @@ return new class extends Migration
             $table->boolean('is_adult')->nullable();
             $table->text('description')->nullable();
             $table->string('country_of_origin')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->string('cover_image_path')->nullable();
             $table->timestamps();
         });
