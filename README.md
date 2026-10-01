@@ -1,4 +1,4 @@
-<img src="public/favicon.ico" alt="Library logo" align="center">
+<img src="public/favicon.ico" alt="Library logo">
 
 ## About this site
 Basically I found that I was often forgeting what manga I'd read and what anime I'd seen so I wanted to make a site that basically functions as an easy way to track them. I know there are sites out there that already do this like [MyAnimeList](https://myanimelist.net/) and [AniList](https://anilist.co/search/anime). But the reaseon I dont want to use these sites is email. I hate getting emails about random junk I dont care about and I feel that if I signed up for these sites I'd almost definately receive these emails. To avoid doing this I decided I'd rather build a site where you don't need an email to sign up. Plus, I also thought building this site would be a valuable learning opportunity to improve my knowledge of laravel. So basically this site will make it easy for me to track what manga/anime I've read/seen and also make a site that I'd maybe actually use.

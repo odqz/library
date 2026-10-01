@@ -58,13 +58,13 @@
       <form action="/{{ $type }}s/index/{{ $page_number-1 }}" method="get">
         @csrf
         <input type="number" name="page" value="{{ $page_number-1 }}" hidden>
-        <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2">< prev</button>
+        <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2 cursor-pointer">< prev</button>
       </form>
     @endif
     <form action="/{{ $type }}s/index/{{ $page_number+1 }}" method="get">
       @csrf
       <input type="number" name="page" value="{{ $page_number+1 }}" hidden>
-      <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2">next ></button>
+      <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2 cursor-pointer">next ></button>
     </form>
   </div>
 </x-layout.layout>
