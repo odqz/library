@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMangaRequest;
-use App\Http\Requests\UpdateMangaRequest;
 use App\Models\Manga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,16 +68,16 @@ class MangaController extends Controller
                 title {
                     english 
                     romaji 
-                } 
-                averageScore
-                favourites
+                }
                 volumes
                 chapters
-                status 
+                status
+                description 
                 genres
-                isAdult
-                description
                 countryOfOrigin
+                coverImage {
+                    extraLarge
+                }
                 startDate {
                     day
                     month
@@ -88,6 +87,20 @@ class MangaController extends Controller
                     day
                     month
                     year
+                }
+                averageScore
+                staff {
+                    edges {
+                        role
+                        node {
+                            name {
+                                full
+                            }
+                            image {
+                                medium
+                            }
+                        }
+                    }
                 }
                 characters {
                     edges {
@@ -102,22 +115,7 @@ class MangaController extends Controller
                         }
                     }
                 }
-                staff {
-                    edges {
-                        role
-                        node {
-                            name {
-                                full
-                            }
-                            image {
-                                medium
-                            }
-                        }
-                    }
-                }
-                coverImage {
-                    extraLarge
-                }
+
             }
         }';
 
@@ -160,18 +158,16 @@ class MangaController extends Controller
             'id' => $mangaArray["id"],
             'title_english' => $mangaArray["title"]["english"],
             'title_romaji' => $mangaArray["title"]["romaji"],
-            'average_score' => $mangaArray["averageScore"],
-            'favourites' => $mangaArray["favourites"],
             'volumes' => $mangaArray["volumes"],
             'chapters' => $mangaArray["chapters"],
             'status' => $mangaArray["status"],
-            'genres' => $mangaArray["genres"],
-            'is_adult' => $mangaArray["description"],
             'description' => $mangaArray["description"],
+            'genres' => $mangaArray["genres"],
             'country_of_origin' => $mangaArray["countryOfOrigin"],
+            'cover_image_path' => $mangaArray["coverImage"]["extraLarge"],
             'start_date' => "{$mangaArray["startDate"]["year"]}-{$mangaArray["startDate"]["month"]}-{$mangaArray["startDate"]["day"]}",
             'end_date' => "{$mangaArray["endDate"]["year"]}-{$mangaArray["endDate"]["month"]}-{$mangaArray["endDate"]["day"]}",
-            'cover_image_path' => $mangaArray["coverImage"]["extraLarge"],
+            'average_score' => $mangaArray["averageScore"],
         ]);
 
         foreach ($mangaArray["staff"]["edges"] as $staff) {
