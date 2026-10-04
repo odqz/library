@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAnimeRequest;
-use App\Http\Requests\UpdateAnimeRequest;
 use App\Models\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,14 +69,14 @@ class AnimeController extends Controller
                     english 
                     romaji 
                 } 
-                averageScore
-                favourites
                 episodes
                 status 
-                genres
-                isAdult
                 description
+                genres
                 countryOfOrigin
+                coverImage {
+                    extraLarge
+                }
                 startDate {
                     day
                     month
@@ -87,6 +86,20 @@ class AnimeController extends Controller
                     day
                     month
                     year
+                }
+                averageScore
+                staff {
+                    edges {
+                        role
+                        node {
+                            name {
+                                full
+                            }
+                            image {
+                                medium
+                            }
+                        }
+                    }
                 }
                 characters {
                     edges {
@@ -101,22 +114,7 @@ class AnimeController extends Controller
                         }
                     }
                 }
-                staff {
-                    edges {
-                        role
-                        node {
-                            name {
-                                full
-                            }
-                            image {
-                                medium
-                            }
-                        }
-                    }
-                }
-                coverImage {
-                    extraLarge
-                }
+
             }
         }';
  
@@ -155,21 +153,21 @@ class AnimeController extends Controller
     // Adds the anime to the database and creates the subsequent staff/characters in the database
     public function createAnime(Array $animeArray)
     {
+        
+
         $anime = Anime::create([
             'id' => $animeArray["id"],
             'title_english' => $animeArray["title"]["english"],
             'title_romaji' => $animeArray["title"]["romaji"],
-            'average_score' => $animeArray["averageScore"],
-            'favourites' => $animeArray["favourites"],
             'episodes' => $animeArray["episodes"],
             'status' => $animeArray["status"],
-            'genres' => $animeArray["genres"],
-            'is_adult' => $animeArray["description"],
             'description' => $animeArray["description"],
+            'genres' => $animeArray["genres"],
             'country_of_origin' => $animeArray["countryOfOrigin"],
+            'cover_image_path' => $animeArray["coverImage"]["extraLarge"],
             'start_date' => "{$animeArray["startDate"]["year"]}-{$animeArray["startDate"]["month"]}-{$animeArray["startDate"]["day"]}",
             'end_date' => "{$animeArray["endDate"]["year"]}-{$animeArray["endDate"]["month"]}-{$animeArray["endDate"]["day"]}",
-            'cover_image_path' => $animeArray["coverImage"]["extraLarge"],
+            'average_score' => $animeArray["averageScore"],
         ]);
 
         foreach ($animeArray["staff"]["edges"] as $staff) {

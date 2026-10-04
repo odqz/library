@@ -15,17 +15,15 @@ return new class extends Migration
             $table->unsignedBigInteger('id')->primary();
             $table->string('title_english')->nullable();
             $table->string('title_romaji')->nullable();
-            $table->integer('average_score')->nullable();
-            $table->string('favourites')->nullable();
             $table->integer('episodes')->nullable();
             $table->string('status')->nullable();
-            $table->json('genres')->default('[]')->nullable();
-            $table->boolean('is_adult')->nullable();
             $table->text('description')->nullable();
+            $table->json('genres')->default('[]')->nullable();
             $table->string('country_of_origin')->nullable();
+            $table->string('cover_image_path')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->string('cover_image_path')->nullable();
+            $table->integer('average_score')->nullable();
             $table->timestamps();
         });
     }
