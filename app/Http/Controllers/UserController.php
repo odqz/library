@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Reading;
 use App\Models\User;
 use App\Models\Watching;
@@ -30,16 +31,11 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'max:255'],
-        ]);
-
         $user = User::create([
             'username' => $request->username,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
         ]);
 
         Auth::login($user);
