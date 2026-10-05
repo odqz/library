@@ -19,9 +19,7 @@
         @endif
         <p><span class="font-bold">Status:</span> {{ $media->status }}</p>
         <p><span class="font-bold">Score:</span> {{ $media->average_score }}</p>
-        <p><span class="font-bold">Favourites:</span> {{ $media->favourites }}</p>
         <p><span class="font-bold">Country:</span> {{ $media->country_of_origin }}</p>
-        <p><span class="font-bold">Adult:</span> @if($media->is_adult == NULL) False @else True @endif</p>
         <p><span class="font-bold">Start date:</span> {{ "{$start_date[2]}/{$start_date[1]}/{$start_date[0]}" }}</p>
         <p><span class="font-bold">End date:</span> {{ "{$end_date[2]}/{$end_date[1]}/{$end_date[0]}" }}</p>
         <div>

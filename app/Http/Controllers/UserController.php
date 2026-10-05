@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -106,7 +98,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', ['user' => $user]);
+        return view('users.edit', compact('user'));
     }
 
     /**
