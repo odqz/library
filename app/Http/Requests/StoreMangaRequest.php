@@ -23,20 +23,20 @@ class StoreMangaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'unique:animes'],
-            'title_english' => ['nullable', 'string', 'max:255'],
-            'title_romaji' => ['nullable', 'string', 'max:255'],
-            'volumes' => ['nullable', 'integer'],
-            'chapters' => ['nullable', 'integer'],
-            'status' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'genres' => ['nullable', 'array'],
-            'genres.*' => ['nullable', 'string', 'max:255'], 
-            'country_of_origin' => ['required', 'string', 'max:255'],
-            'cover_image_path' => ['required', 'string'],
-            'start_date' => ['nullable', 'date'],
-            'end_date' => ['nullable', 'date'],
-            'average_score' => ['nullable', 'integer'],
+            'id' => 'required|integer|unique:animes',
+            'title_english' => 'nullable|string|max:255',
+            'title_romaji' => 'nullable|string|max:255',
+            'volumes' => 'nullable|integer',
+            'chapters' => 'nullable|integer',
+            'status' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'genres' => 'nullable|array',
+            'genres.*' => 'nullable|string|max:255', 
+            'country_of_origin' => 'required|string|max:255',
+            'cover_image_path' => 'required|string',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'average_score' => 'nullable|integer',
         ];
     }
 }
