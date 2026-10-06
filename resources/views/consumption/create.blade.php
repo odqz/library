@@ -4,22 +4,25 @@
       <img src="{{ $media->cover_image_path }}" alt="" class="w-75 h-105">
     </div>
     @if($type == 'manga')
-      <form action="/readings/{{ $media->id }}" method="post" class="flex flex-col items-start gap-1">
+      <form action="/readings/new" method="post" class="flex flex-col items-start gap-1">
     @else
-      <form action="/watchings/{{ $media->id }}" method="post" class="flex flex-col items-start gap-1">
+      <form action="/watchings/new" method="post" class="flex flex-col items-start gap-1">
     @endif
       @csrf
       <a href="/{{ $type }}s/{{ $media->id }}" class="text-2xl text-(--logo-blue) font-bold w-75">{{ $media->title_english }}</a>
+      <div class="hidden">
+        <input type="number" name="{{ $type }}_id" value="{{ $media->id }}" readonly>
+      </div>
       @if($type == 'manga')
         <div class="flex flex-col">
-          <x-form.field name="volumes" label="Volumes" type="number" min="0" placeholder="{{ $media->volumes }}"></x-form.field>
+          <x-form.field name="volumes_read" label="Volumes" type="number" min="0" placeholder="{{ $media->volumes }}"></x-form.field>
         </div>
         <div class="flex flex-col">
-          <x-form.field name="chapters" label="Chapters" type="number" min="0" placeholder="{{ $media->chapters }}"></x-form.field>
+          <x-form.field name="chapters_read" label="Chapters" type="number" min="0" placeholder="{{ $media->chapters }}"></x-form.field>
         </div>
       @elseif($media->episodes > 1)
         <div class="flex flex-col">
-          <x-form.field name="episodes" label="Episodes" type="number" min="0" placeholder="{{ $media->episodes }}"></x-form.field>
+          <x-form.field name="episodes_watched" label="Episodes" type="number" min="0" placeholder="{{ $media->episodes }}"></x-form.field>
         </div>
       @endif
       <div class="flex flex-col">
