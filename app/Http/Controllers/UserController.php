@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Watching;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -39,7 +40,7 @@ class UserController extends Controller
      */
     public function show(User $user, Request $request)
     {
-        $user = Auth::user();
+        Gate::authorize('modify', $user);
 
         if (count($request->all()) == 0 || count($request->all()) == 6) {
             $readings = $user->readings;
@@ -56,6 +57,7 @@ class UserController extends Controller
 
     public function filterReadings(User $user, Request $request)
     {
+        Gate::authorize('modify', $user);
 
         $readings = [];
 
@@ -76,6 +78,8 @@ class UserController extends Controller
 
     public function filterWatchings(User $user, Request $request)
     {
+        Gate::authorize('modify', $user);
+        
         $watchings = [];
         
         $watchingsArray = $user->watchings()
@@ -98,6 +102,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        Gate::authorize('modify', $user);
+
         return view('users.edit', compact('user'));
     }
 
@@ -106,7 +112,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        Gate::authorize('modify', $user);
     }
 
     /**
@@ -114,6 +120,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        Gate::authorize('modify', $user);
+        
         $user->delete();
 
         return redirect('/');
