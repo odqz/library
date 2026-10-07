@@ -11,40 +11,43 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::redirect('/', '/login');
 
-    Route::prefix('users')->group(function () {
-        Route::get('/{user}', [UserController::class, 'show']);
-        Route::get('/{user}/edit', [UserController::class, 'edit']);
-        Route::get('/{user}/filter', [UserController::class, 'show']);
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/{user}', [UserController::class, 'show'])->name('show');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
     });
 
-    Route::prefix('readings')->group(function () {
-        Route::get('/new/{manga}', [ReadingController::class, 'create']);
-        Route::post('/new', [ReadingController::class, 'store']);
-        Route::get('{reading}/edit', [ReadingController::class, 'edit']);
-        Route::patch('/{reading}', [ReadingController::class, 'update']);
-        Route::delete('/{reading}', [ReadingController::class, 'destroy']);
+    Route::prefix('readings')->name('readings.')->group(function () {
+        Route::get('/new/{manga}', [ReadingController::class, 'create'])->name('new');
+        Route::post('/', [ReadingController::class, 'store'])->name('store');
+        Route::get('{reading}/edit', [ReadingController::class, 'edit'])->name('edit');
+        Route::patch('/{reading}/edit', [ReadingController::class, 'update'])->name('update');
+        Route::delete('/{reading}', [ReadingController::class, 'destroy'])->name('delete');
     });
 
-    Route::prefix('watchings')->group(function () {
-        Route::get('/new/{anime}', [WatchingController::class, 'create']);
-        Route::post('/new', [WatchingController::class, 'store']);
-        Route::get('/{watching}/edit', [WatchingController::class, 'edit']);
-        Route::patch('/{watching}', [WatchingController::class, 'update']);
-        Route::delete('/{watching}', [WatchingController::class, 'destroy']);
+    Route::prefix('watchings')->name('watchings.')->group(function () {
+        Route::get('/new/{anime}', [WatchingController::class, 'create'])->name('new');
+        Route::post('/', [WatchingController::class, 'store'])->name('store');
+        Route::get('/{watching}/edit', [WatchingController::class, 'edit'])->name('edit');
+        Route::patch('/{watching}/edit', [WatchingController::class, 'update'])->name('update');
+        Route::delete('/{watching}/delete', [WatchingController::class, 'destroy'])->name('delete');
     });
 
-    Route::delete('/delete-account', [UserController::class, 'destroy']);
-    Route::delete('/logout', [SessionsController::class, 'destroy']);
+    Route::delete('/delete-account', [UserController::class, 'destroy'])->name('delete-account');
+    Route::delete('/logout', [SessionsController::class, 'destroy'])->name('logout');
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', function () { return view('auth.login'); });
-    Route::post('/login', [SessionsController::class, 'store']);
-    Route::post('/create-account', [UserController::class, 'store']);
+    Route::get('/login', function () { return view('auth.login'); })->name('login');
+    Route::post('/login', [SessionsController::class, 'store'])->name('login');
+    Route::post('/create-account', [UserController::class, 'store'])->name('create-account');
 });
 
-Route::get('/animes/index/{page}', [AnimeController::class, 'index']);
-Route::get('/animes/{anime}', [AnimeController::class, 'show']);
+Route::prefix('animes')->name('animes.')->group(function () {
+    Route::get('/index/{page}', [AnimeController::class, 'index'])->name('index');
+    Route::get('/{anime}', [AnimeController::class, 'show'])->name('show');
+});
 
-Route::get('/mangas/index/{page}', [MangaController::class, 'index']);
-Route::get('/mangas/{manga}', [MangaController::class, 'show']);
+Route::prefix('mangas')->name('mangas.')->group(function () {
+    Route::get('/index/{page}', [MangaController::class, 'index'])->name('index');
+    Route::get('/{manga}', [MangaController::class, 'show'])->name('show');
+});
