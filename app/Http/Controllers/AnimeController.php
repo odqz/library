@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAnimeRequest;
 use App\Models\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -153,8 +152,6 @@ class AnimeController extends Controller
     // Adds the anime to the database and creates the subsequent staff/characters in the database
     public function createAnime(Array $animeArray)
     {
-        
-
         $anime = Anime::create([
             'id' => $animeArray["id"],
             'title_english' => $animeArray["title"]["english"],
