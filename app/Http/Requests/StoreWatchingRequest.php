@@ -23,7 +23,7 @@ class StoreWatchingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'anime_id' => 'required|integer|exists:mangas,id',
+            'anime_id' => 'required|integer|exists:animes,id',
             'episodes_watched' => 'nullable|integer',
             'status' => 'required|string',
             'score' => 'nullable|integer',
