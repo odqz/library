@@ -1,11 +1,15 @@
 <x-layout.layout title="{{ ucfirst($type) }}s">
   @php $x = ($page_number * 30) - 29; @endphp
+
   <div class="flex flex-col gap-2 w-full "> 
-    <form action="/{{ $type }}s/index/{{ $page_number }}" method="get" class="flex gap-2 w-[30%]">
+    <!-- Search bar -->
+    <form action="{{ $type == 'anime' ? route('animes.index', ['page' => $page_number]) : route('mangas.index', ['page' => $page_number]) }}" method="get" class="flex gap-2 w-[30%]">
       <input type="search" name="search" id="search" class="w-full border px-1 outline-none" placeholder="Find a {{ $type }}...">
       <label for="search" hidden>Search</label>
       <button type="submit" class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2">search</button>
     </form>
+
+    <!-- List of media -->
     @foreach($medias as $media)
       <x-media.card 
         rank="{{ $x }}" 
@@ -13,7 +17,7 @@
         average_score="{{ $media->average_score }}" 
         status="{{ $media->status }}" 
         cover_image_path="{{ $media->cover_image_path }}" 
-        url="/{{ $type }}s/{{ $media->id }}"
+        url="{{ $type == 'anime' ? route('animes.show', ['anime' => $media]) : route('mangas.show', ['manga' => $media]) }}"
       >
         @foreach($media->genres as $genre)
           @if($genre == "Action")
@@ -52,16 +56,17 @@
       </x-media.card>
     @endforeach
   </div>
-  
+
+  <!-- Page navigation buttons -->
   <div class="flex justify-center gap-2">
     @if($page_number > 1)
-      <form action="/{{ $type }}s/index/{{ $page_number-1 }}" method="get">
+      <form action="{{ $type == 'anime' ? route('animes.index', ['page' => $page_number - 1]) : route('mangas.index', ['page' => $page_number - 1]) }}" method="get">
         @csrf
         <input type="number" name="page" value="{{ $page_number-1 }}" hidden>
         <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2 cursor-pointer">< prev</button>
       </form>
     @endif
-    <form action="/{{ $type }}s/index/{{ $page_number+1 }}" method="get">
+    <form action="{{ $type == 'anime' ? route('animes.index', ['page' => $page_number + 1]) : route('mangas.index', ['page' => $page_number + 1]) }}" method="get">
       @csrf
       <input type="number" name="page" value="{{ $page_number+1 }}" hidden>
       <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2 cursor-pointer">next ></button>

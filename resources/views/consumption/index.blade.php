@@ -2,6 +2,7 @@
 <x-layout.layout title="My library">
   <div class="flex justify-between">
     <div class="flex flex-col gap-8">
+      <!-- Section on animes -->
       <div class="flex flex-col gap-2">
         <div class="flex items-end gap-2">
           <h2 class="text-2xl text-(--logo-blue) font-bold">Animes</h2>
@@ -25,11 +26,11 @@
                 average_score="{{ $watching->score }}" 
                 status="{{ $watching->status }}" 
                 cover_image_path="{{ $anime->cover_image_path }}" 
-                url="/animes/{{ $anime->id }}"
+                url="{{ route('animes.show', ['anime' => $anime]) }}"
               >
                 <div class="flex gap-2">
-                  <a href="/watchings/{{ $watching->id }}/edit" class="text-(--text-white) bg-(--good-green) px-2 mt-1 cursor-pointer">View</a>
-                  <form action="/watchings/{{ $watching->id }}" method="post">
+                  <a href="{{ route('watchings.edit', ['watching' => $watching]) }}" class="text-(--text-white) bg-(--logo-blue) px-2 mt-1 cursor-pointer">View</a>
+                  <form action="{{ route('watchings.delete', ['watching' => $watching]) }}" method="post">
                     @csrf
                     @method('DELETE')
 
@@ -42,7 +43,9 @@
           <div class="hidden" id="hiding-animes">You are hiding your animes. To see them press the show button above.</div>
         @endif
       </div>
-      <div class="fflex flex-col gap-2">
+
+      <!-- Section on mangas -->
+      <div class="flex flex-col gap-2">
         <div class="flex items-end gap-2">
           <h2 class="text-2xl text-(--logo-blue) font-bold">Mangas</h2>
           <button class="text-(--logo-blue) underline cursor-pointer mb-1" type="button" id="hide-mangas">hide</button>
@@ -65,11 +68,11 @@
                 average_score="{{ $reading->score }}" 
                 status="{{ $reading->status }}" 
                 cover_image_path="{{ $manga->cover_image_path }}" 
-                url="/mangas/{{ $manga->id }}"
+                url="{{ route('mangas.show', ['manga' => $manga]) }}"
               >
                 <div class="flex gap-2">
-                  <a href="/readings/{{ $reading->id }}/edit" class="text-(--text-white) bg-(--good-green) px-2 mt-1 cursor-pointer">View</a>
-                  <form action="/readings/{{ $reading->id }}" method="post">
+                  <a href="{{ route('readings.edit', ['reading' => $reading]) }}" class="text-(--text-white) bg-(--logo-blue) px-2 mt-1 cursor-pointer">View</a>
+                  <form action="{{ route('readings.delete', ['reading' => $reading]) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <button class="text-(--text-white) bg-(--bad-red) px-2 mt-1 cursor-pointer">Remove</button>
@@ -83,10 +86,11 @@
       </div>
     </div>
 
+    <!-- Filter tab on right -->
     <div class="flex flex-col items-start w-[16%] p-1 border h-min">
       <h2 class="text-2xl text-(--logo-blue) font-bold">Filters</h2>
       <div class="flex flex-col items-start mb-1">
-        <form action="/users/{{ $user->id }}/filter/" class="hide px-1" id="filter-form">
+        <form action="{{ route('users.show', ['user' => $user]) }}" class="hide px-1" id="filter-form">
           <div>
             <label for="planned">Planned</label>
             <input type="checkbox" name="planned" value="PLANNED" id="" {{ in_array("PLANNED", $checkedBoxes) ? 'checked' : null }}>

@@ -7,6 +7,7 @@
 
 <x-layout.layout title="{{ $media->title_english != null ? $media->title_english : $media->title_romaji }}">
   <div class="flex gap-6">
+    <!-- Content on the left side -->
     <div class="shrink-0">
       <img src="{{ $media->cover_image_path }}" alt="" class="w-75 h-105">
       <div>
@@ -30,17 +31,20 @@
         </div>
         <div class="flex">
           @if ($inLibrary == true)
-            <a href="/users/{{ Auth::user()->id }}" class="bg-(--text-white) w-max mt-2 py-0.5 flex-1 text-center">In library</a>
+            <a href="{{ route('users.show', ['user' => Auth::user()]) }}" class="bg-(--text-white) w-max mt-2 py-0.5 flex-1 text-center">In library</a>
           @else
-            @if ($type == 'manga')
-              <a href="/readings/new/{{ $media->id }}" class="text-(--text-white) bg-(--good-green) w-max mt-2 py-0.5 flex-1 text-center">Add to library</a>
-            @else
-              <a href="/watchings/new/{{ $media->id }}" class="text-(--text-white) bg-(--good-green) w-max mt-2 py-0.5 flex-1 text-center">Add to library</a>
-            @endif
+            <a 
+              href="{{ $type == 'anime' ? route('watchings.new', ['anime' => $media]) : route('readings.new', ['manga' => $media]) }}"
+              class="text-(--text-white) bg-(--good-green) w-max mt-2 py-0.5 flex-1 text-center"
+            >
+            Add to library
+            </a>
           @endif
         </div>
       </div>
     </div>
+
+    <!-- Content on the right side -->
     <div class="flex flex-col gap-4">
       <div>
         <h3 class="text-xl font-bold">Plot</h3>

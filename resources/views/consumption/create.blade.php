@@ -4,12 +4,13 @@
       <img src="{{ $media->cover_image_path }}" alt="" class="w-75 h-105">
     </div>
     @if($type == 'manga')
-      <form action="/readings/new" method="post" class="flex flex-col items-start gap-1">
+      <form action="{{ route('readings.store') }}" method="post" class="flex flex-col items-start gap-1">
+        <a href="{{ route('mangas.show', ['manga' => $media]) }}" class="text-2xl text-(--logo-blue) font-bold w-75">{{ $media->title_english }}</a>
     @else
-      <form action="/watchings/new" method="post" class="flex flex-col items-start gap-1">
+      <form action="{{ route('watchings.store') }}" method="post" class="flex flex-col items-start gap-1">
+        <a href="{{ route('animes.show', ['anime' => $media]) }}" class="text-2xl text-(--logo-blue) font-bold w-75">{{ $media->title_english }}</a>
     @endif
       @csrf
-      <a href="/{{ $type }}s/{{ $media->id }}" class="text-2xl text-(--logo-blue) font-bold w-75">{{ $media->title_english }}</a>
       <div class="hidden">
         <input type="number" name="{{ $type }}_id" value="{{ $media->id }}" readonly>
       </div>
@@ -29,7 +30,7 @@
         <label for="status">Status:</label>
         <select name="status" id="status" class="text-[#4d4d4d] outline-none px-1 border">
           <option value="PLANNED">PLANNED</option>
-          <option value="WATCHING">WATCHING</option>
+          <option value="{{ $status = $type == 'anime' ? 'WATCHING' : 'READING' }}">{{ $status }}</option>
           <option value="COMPLETED">COMPLETD</option>
           <option value="PAUSED">PAUSED</option>
           <option value="DROPPED">DROPPED</option>
