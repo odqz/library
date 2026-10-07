@@ -1,4 +1,4 @@
-<x-layout.layout>
+<x-layout.layout title="Login">
   <div class="flex flex-col gap-6">
     <!-- Login section -->
     <form action="{{ route('login') }}" method="post" class="flex flex-col items-start gap-2">

@@ -5,7 +5,7 @@
   $end_date = explode("-", $media->end_date);
 @endphp
 
-<x-layout.layout title="{{ $media->title_english != null ? $media->title_english : $media->title_romaji }}">
+<x-layout.layout title="{!! $media->title_english != null ? $media->title_english : $media->title_romaji !!}">
   <div class="flex gap-6">
     <!-- Content on the left side -->
     <div class="shrink-0">
