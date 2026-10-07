@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreWatchingRequest;
 use App\Models\Anime;
 use App\Models\Watching;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class WatchingController extends Controller
 {
@@ -14,21 +16,19 @@ class WatchingController extends Controller
      */
     public function create(Int $id)
     {
+        Gate::authorize('create', Watching::class);
+        
         return view('consumption.create', ['media' => Anime::find($id), 'type' => 'anime']);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Int $id)
+    public function store(StoreWatchingRequest $request)
     {
-        $watching = Auth::user()->watchings()->create([
-            'anime_id' => $id,
-            'episodes_watched' => $request->episodes,
-            'status' => $request->status,
-            'score' => $request->score,
-            'notes' => $request->notes,
-        ]);
+        Gate::authorize('create', Watching::class);
+
+        Auth::user()->watchings()->create($request->validated());
 
         $user = Auth::user();    
 
@@ -40,6 +40,8 @@ class WatchingController extends Controller
      */
     public function edit(Watching $watching)
     {
+        Gate::authorize('modify', $watching);
+
         return view('consumption.edit', ['consumption' => $watching, 'media' => $watching->anime, 'type' => 'watching']);
     }
 
@@ -48,6 +50,8 @@ class WatchingController extends Controller
      */
     public function update(Request $request, Watching $watching)
     {
+        Gate::authorize('modify', $watching);
+
         $watching = $watching->update([
             'episodes_watched' => $request->episodes,
             'status' => $request->status,
@@ -65,6 +69,8 @@ class WatchingController extends Controller
      */
     public function destroy(Watching $watching)
     {
+        Gate::authorize('modify', $watching);
+
         $watching->delete();
 
         $id = Auth::user()->id;

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReadingRequest;
 use App\Models\Manga;
 use App\Models\Reading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ReadingController extends Controller
 {
@@ -14,34 +16,32 @@ class ReadingController extends Controller
      */
     public function create(Int $id)
     {
+        Gate::authorize('create', Reading::class);
+
         return view('consumption.create', ['media' => Manga::find($id), 'type' => 'manga']);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Int $id)
+    public function store(StoreReadingRequest $request)
     {
-        $reading = Auth::user()->readings()->create([
-            'manga_id' => $id,
-            'chapters_read' => $request->chapters,
-            'volumes_read' => $request->volumes,
-            'status' => $request->status,
-            'score' => $request->score,
-            'notes' => $request->notes,
-        ]);
+        Gate::authorize('create', Reading::class);
+
+        Auth::user()->readings()->create($request->validated());
 
         $user = Auth::user();    
 
         return redirect("/users/$user->id");
     }
 
-
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Reading $reading)
     {
+        Gate::authorize('modify', $reading);
+
         return view('consumption.edit', ['consumption' => $reading, 'media' => $reading->manga, 'type' => 'reading']);
     }
 
@@ -50,6 +50,8 @@ class ReadingController extends Controller
      */
     public function update(Request $request, Reading $reading)
     {
+        Gate::authorize('modify', $reading);
+
         $reading = $reading->update([
             'volumes_read' => $request->volumes,
             'chapters_read' => $request->chapters,
@@ -68,6 +70,8 @@ class ReadingController extends Controller
      */
     public function destroy(Reading $reading)
     {
+        Gate::authorize('modify', $reading);
+        
         $reading->delete();
 
         $id = Auth::user()->id;
