@@ -1,60 +1,70 @@
 <x-layout.layout title="{{ ucfirst($type) }}s">
   @php $x = ($page_number * 30) - 29; @endphp
-
   <div class="flex flex-col gap-2 w-full "> 
     <!-- Search bar -->
     <form action="{{ $type == 'anime' ? route('animes.index', ['page' => $page_number]) : route('mangas.index', ['page' => $page_number]) }}" method="get" class="flex gap-2 w-[30%]">
-      <input type="search" name="search" id="search" class="w-full border px-1 outline-none" placeholder="Find a {{ $type }}...">
+      <input type="search" name="search" id="search" class="w-full border px-1 outline-none" value="{{ $search }}" placeholder="Find a {{ $type }}...">
       <label for="search" hidden>Search</label>
       <button type="submit" class="bg-(--logo-blue) text-(--text-white) py-0.5 px-2">search</button>
     </form>
-
-    <!-- List of media -->
-    @foreach($medias as $media)
-      <x-media.card 
-        rank="{{ $x }}" 
-        title="{{ $media->title_english == null ? $media->title_romaji : $media->title_english }}" 
-        average_score="{{ $media->average_score }}" 
-        status="{{ $media->status }}" 
-        cover_image_path="{{ $media->cover_image_path }}" 
-        url="{{ $type == 'anime' ? route('animes.show', ['anime' => $media]) : route('mangas.show', ['manga' => $media]) }}"
-      >
-        @foreach($media->genres as $genre)
-          @if($genre == "Action")
-            <div class="bg-(--bad-red) text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Adventure")
-            <div class="bg-(--good-green) text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Drama")
-            <div class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Fantasy")
-            <div class="bg-[#00a080] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Horror")
-            <div class="bg-[#1e1e1e] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Psychological")
-            <div class="bg-[#823400] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Mystery")
-            <div class="bg-[#b59d01] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Supernatural")
-            <div class="bg-[#820082] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Comedy")
-            <div class="bg-[#0bba7c] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Thriller")
-            <div class="bg-[#420468] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Sports")
-            <div class="bg-[#65ba0b] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Sci-Fi")
-            <div class="bg-[#a30000] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Slice of Life")
-            <div class="bg-[#b707ab] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @elseif($genre == "Romance")
-            <div class="bg-[#840727] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @else
-            <div class="text-(--logo-blue) py-0.5 px-1 text-sm">{{ $genre }}</div>
-          @endif
-        @endforeach
-        @php $x += 1; @endphp
-      </x-media.card>
-    @endforeach
+    @if (sizeof($medias) < 1)
+      <p>No {{ $type }}s to display</p>
+    @else
+      <!-- List of media -->
+      @foreach($medias as $media)
+        <x-media.card 
+          rank="{{ $x }}" 
+          title="{{ $media->title_english == null ? $media->title_romaji : $media->title_english }}" 
+          average_score="{{ $media->average_score }}" 
+          status="{{ $media->status }}" 
+          cover_image_path="{{ $media->cover_image_path }}" 
+          url="{{ $type == 'anime' ? route('animes.show', ['anime' => $media]) : route('mangas.show', ['manga' => $media]) }}"
+        >
+          @foreach($media->genres as $genre)
+            @if($genre == "Action")
+              <div class="bg-(--bad-red) text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Adventure")
+              <div class="bg-(--good-green) text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Drama")
+              <div class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Fantasy")
+              <div class="bg-[#00a080] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Horror")
+              <div class="bg-[#1e1e1e] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Psychological")
+              <div class="bg-[#823400] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Mystery")
+              <div class="bg-[#b59d01] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Supernatural")
+              <div class="bg-[#820082] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Comedy")
+              <div class="bg-[#0bba7c] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Thriller")
+              <div class="bg-[#420468] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Sports")
+              <div class="bg-[#65ba0b] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Sci-Fi")
+              <div class="bg-[#a30000] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Slice of Life")
+              <div class="bg-[#b707ab] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Romance")
+              <div class="bg-[#840727] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Music")
+              <div class="bg-[#aa9900] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Mecha")
+              <div class="bg-[#9704f9] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Mahou Shoujo")
+              <div class="bg-[#049af7] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @elseif($genre == "Ecchi")
+              <div class="bg-[#fc05f8] text-(--text-bright-white) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @else
+              <div class="text-(--logo-blue) py-0.5 px-1 text-sm">{{ $genre }}</div>
+            @endif
+          @endforeach
+          @php $x += 1; @endphp
+        </x-media.card>
+      @endforeach
+    @endif
   </div>
 
   <!-- Page navigation buttons -->
@@ -63,12 +73,14 @@
       <form action="{{ $type == 'anime' ? route('animes.index', ['page' => $page_number - 1]) : route('mangas.index', ['page' => $page_number - 1]) }}" method="get">
         @csrf
         <input type="number" name="page" value="{{ $page_number-1 }}" hidden>
+        <input type="search" name="search" value="{{ $search }}" readonly hidden>
         <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2 cursor-pointer">< prev</button>
       </form>
     @endif
     <form action="{{ $type == 'anime' ? route('animes.index', ['page' => $page_number + 1]) : route('mangas.index', ['page' => $page_number + 1]) }}" method="get">
       @csrf
-      <input type="number" name="page" value="{{ $page_number+1 }}" hidden>
+      <input type="number" name="page" value="{{ $page_number+1 }}" readonly hidden>
+      <input type="search" name="search" value="{{ $search }}" readonly hidden>
       <button class="bg-(--logo-blue) text-(--text-bright-white) py-0.5 px-2 cursor-pointer">next ></button>
     </form>
   </div>

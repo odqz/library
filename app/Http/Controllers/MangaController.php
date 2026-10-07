@@ -17,7 +17,7 @@ class MangaController extends Controller
             // Converts each manga from an array to a Eloquent Manga model object
             $mangas = $this->convertMangasDetails($mangas["data"]["Page"]["media"]);
             $page = $request->page == null ? 1 : $request->page;
-            return view("media.index", ['medias' => $mangas, 'page_number' => $page, 'type' => 'manga']);
+            return view("media.index", ['medias' => $mangas, 'page_number' => $page, 'type' => 'manga', 'search' => $request->search]);
         } else {
             return view('api-error');
         }
