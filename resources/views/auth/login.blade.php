@@ -13,7 +13,7 @@
     </form>
 
     <!-- Account creation section -->
-    <form action="route('create-account')" method="post" class="flex flex-col items-start gap-2">
+    <form action="{{ route('create-account') }}" method="post" class="flex flex-col items-start gap-2">
       @csrf
       <div class="grid grid-cols-[80px_1fr] gap-2">
         <x-form.field name="username" label="Username" type="text" max="255" placeholder="somebody42" required></x-form.field>
@@ -23,5 +23,13 @@
       </div>
       <button class="bg-(--good-green) py-0.5 px-3 text-(--text-bright-white) hover:brightness-[94%]" type="submit">Create account</button>
     </form>
+
+    <div>
+      @if($errors->any())
+        @foreach($errors->all() as $error)
+            <p class="error text-red-500">{{$error}}</p>
+        @endforeach
+      @endif
+    </div>
   </div>
 </x-layout.layout>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SessionsController extends Controller
 {
@@ -26,9 +28,17 @@ class SessionsController extends Controller
             'password' => ['required', 'string', 'min:8', 'max:255'],
         ]);
 
-        Auth::attempt($validated);
+        $user = User::where('username', $validated['username'])->first();
 
-        return redirect('/');
+        if($user == null) {
+            return redirect()->route('login')->withErrors(['There is no account with this username.']);
+        } elseif (Hash::check($validated['password'], $user->password) == false) {
+            return redirect()->route('login')->withErrors(['Password is incorrect. Please try again.']);
+        }
+
+        Auth::login($user);
+    
+        return redirect()->route('users.show', ['user' => $user]);
     }
 
     /**
@@ -38,6 +48,6 @@ class SessionsController extends Controller
     {
         Auth::logout();
 
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }
