@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Reading;
 use App\Models\User;
 use App\Models\Watching;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -107,9 +109,19 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         Gate::authorize('modify', $user);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->route('users.edit', ['user' => $user])->withErrors(['Password is incorrect. Please try again.']);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password_confirmation),
+        ]);
+
+        return redirect()->route('users.edit', ['user' => $user]);
     }
 
     /**
@@ -118,7 +130,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         Gate::authorize('modify', $user);
-        
+
         $user->delete();
 
         return redirect('/');
