@@ -14,6 +14,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/{user}', [UserController::class, 'show'])->name('show');
         Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::patch('/{user}/edit', [UserController::class, 'update'])->name('update');
+        Route::delete('/{user}/delete', [UserController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('readings')->name('readings.')->group(function () {
@@ -32,7 +34,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{watching}/delete', [WatchingController::class, 'destroy'])->name('delete');
     });
 
-    Route::delete('/delete-account', [UserController::class, 'destroy'])->name('delete-account');
     Route::delete('/logout', [SessionsController::class, 'destroy'])->name('logout');
 });
 
