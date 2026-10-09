@@ -32,7 +32,7 @@ class SessionsController extends Controller
 
         if($user == null) {
             return redirect()->route('login')->withErrors(['There is no account with this username.']);
-        } elseif (Hash::check($validated['password'], $user->password) == false) {
+        } elseif (!Hash::check($validated['password'], $user->password)) {
             return redirect()->route('login')->withErrors(['Password is incorrect. Please try again.']);
         }
 

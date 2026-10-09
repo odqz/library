@@ -24,6 +24,7 @@
       <button class="bg-(--good-green) py-0.5 px-3 text-(--text-bright-white) hover:brightness-[94%]" type="submit">Create account</button>
     </form>
 
+    <!-- Error display -->
     <div>
       @if($errors->any())
         @foreach($errors->all() as $error)
